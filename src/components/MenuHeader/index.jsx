@@ -66,7 +66,7 @@ function ResponsiveAppBar() {
         { name: 'Deconnexion', onClick: () => handleLogout()}]
 
     return (
-        <AppBar position="static">
+        <AppBar position="static" sx={{ marginBottom: 5}}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
