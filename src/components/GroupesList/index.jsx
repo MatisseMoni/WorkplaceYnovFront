@@ -95,7 +95,7 @@ function GroupesList ({access = "all"}) {
 
     return (
     <div>
-      {groupes.map((groupe, index) => (<GroupCard key={index} groupe={groupe} />))}
+      {groupes.map((groupe, index) => (<GroupCard key={index} groupe={groupe} displayLink={true} />))}
     </div>
   )
 }
