@@ -15,6 +15,10 @@ import Inscription from "./pages/Inscription";
 import Connexion from "./pages/Connexion";
 import Compte from "./pages/Compte";
 import Groupes from "./pages/Groupes";
+import Groupe from "./pages/Groupe";
+import CreateGroupe from "./pages/CreateGroupe";
+import CreateThread from "./pages/CreateThread";
+
 import { Provider } from "react-redux";
 import store from "./store/store";
 import { useSelector, useDispatch } from 'react-redux';
@@ -83,6 +87,22 @@ const router = createBrowserRouter([
       {
         path: "/groupes",
         element: <Groupes />,
+      },
+      {
+        path: "/groupes/:idGroupe",
+        element: <Groupe />,
+      },
+      {
+        path: "/createGroupe",
+        element: <CreateGroupe />,
+      },
+      {
+        path: "/groupes/:idGroupe/createThread",
+        element: <CreateThread />,
+      },
+      {
+        path: "*",
+        element: <div>404</div>,
       }
     ],
   },
