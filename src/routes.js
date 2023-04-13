@@ -15,6 +15,7 @@ import Compte from './pages/Compte';
 import Groupe from './pages/Groupe';
 import CreateGroupe from './pages/CreateGroupe';
 import CreateThread from './pages/CreateThread';
+import Error404 from './pages/Error404';
 
 
 const Layout = () => {
@@ -99,6 +100,10 @@ const routes = () =>
                 {
                     path: "*",
                     element: <div>404</div>,
+                },
+                {
+                    path: "/Error404",
+                    element: <Error404/>,
                 }
             ]
         }
