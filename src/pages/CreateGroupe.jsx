@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
-import { Container, Typography, Box, TextField, Button } from '@mui/material';
+import { Typography, Box, TextField, Button } from '@mui/material';
+import Avatar from '@mui/material/Avatar';
+import GroupAddIcon from '@mui/icons-material/GroupAdd';
 
 function CreateGroupe () {
     const [name, setName] = useState('');
@@ -21,13 +23,23 @@ function CreateGroupe () {
                     "Authorization": `Bearer ${token}` }
             });
             console.log(reponse);
-            navigate('/groupes');
+            navigate('/compte');
         })();
     }
 
     return (
-        <Container>
-            <Typography variant="h1" component="div">
+        <Box
+        sx={{
+            marginTop: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+        }}
+        >
+            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+				<GroupAddIcon />
+			</Avatar>
+            <Typography variant="h5" component="h1">
                 Créer un groupe
             </Typography>
         <Box
@@ -45,9 +57,9 @@ function CreateGroupe () {
                 <TextField value={description} onChange={(e) => {
                     setDescription(e.target.value);
                 }} id="description" label="Description" type="text" variant="outlined" />
-                <Button onClick={() => handleSubmit()} variant="outlined">Créer</Button>
+                <Button fullWidth onClick={() => handleSubmit()} variant="contained">Créer</Button>
             </Box>
-        </Container>
+        </Box>
     )
 }
 

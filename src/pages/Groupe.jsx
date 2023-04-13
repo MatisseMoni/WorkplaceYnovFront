@@ -4,27 +4,29 @@ import axios from "axios";
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import GroupCard from "../components/GroupCard";
-import { Link } from "react-router-dom";
 import ThreadsList from '../components/ThreadsList';
+import RequestsList from '../components/RequestsList';
+import { useSelector } from 'react-redux';
+import MembersList from '../components/MembersList';
 
 
 function Groupe () {
     let { idGroupe } = useParams();
     const [groupe, setGroupe] = useState();
     const url = `${process.env.REACT_APP_YOUR_API_URL}/api/groups/${idGroupe}`;
+    const currentUser = useSelector((state) => state.auth.user);
 
     useEffect(() => {
         (async () => {
             try {
                 const response = await axios.get(url);
-                console.log("response", response);
                 setGroupe(response.data);
             }
             catch (error) {
                 console.error(error);
             }
         })();
-    }, [idGroupe])
+    }, [idGroupe, currentUser])
 
     if (!groupe) {
         return (
@@ -33,12 +35,13 @@ function Groupe () {
             </Box>);
     }
 
+
     return (
         <>
             <GroupCard groupe={groupe} />
-            <Link to={`/groupes/${idGroupe}/createThread`}>Ajouter un Thread</Link>
-            <h3>Threads</h3>
+            {`/api/user/${currentUser.id}` === groupe.owner ? (<RequestsList groupeId={idGroupe} />) : null}
             <ThreadsList groupeId={idGroupe} />
+            <MembersList groupId={idGroupe} owner={groupe.owner} />
         </>
     )
 }

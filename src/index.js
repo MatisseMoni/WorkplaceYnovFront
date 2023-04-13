@@ -30,6 +30,8 @@ import { useEffect } from "react";
 const Layout = () => {
   const dispatch = useDispatch();
   const url = `${process.env.REACT_APP_YOUR_API_URL}/api/users/1/info`;
+  const urlGroupes = `${process.env.REACT_APP_YOUR_API_URL}/api/users/`;
+
 
   useEffect(() => {
   
@@ -39,6 +41,13 @@ const Layout = () => {
           if (token) {
             const response = await axios.get(url, { headers: { "Authorization": `Bearer ${token}` } });
             const data = response.data;
+            
+            const reponseGroupes = await axios.get(`${urlGroupes}${data.id}`, {
+              headers: { Authorization: `Bearer ${token}` },
+            });
+    
+            data.ownedGroups = reponseGroupes.data.ownedGroups;
+            data.subscribedGroups = reponseGroupes.data.subscribedGroups;
             dispatch(login(data));
           }
         } catch (error) {
