@@ -10,7 +10,7 @@ import { useDispatch } from "react-redux";
 import { setUser } from "../store/reducers/auth";
 import MesGroupes from "../components/MesGroupes";
 import Button from "@mui/material/Button";
-import { Container } from "@mui/material";
+import { Card, Container } from "@mui/material";
 
 function Compte() {
   const [user, setUser] = useState(null);
@@ -66,16 +66,21 @@ function Compte() {
   return (
     <>
       <UserCard user={user} />
-      <MesGroupes />
-      <Container>
-        <Button
-          variant="outlined"
-          color="error"
-          onClick={() => handleDelete()}
-          sx={{ marginTop: 2 }}
-        >
-          {deleteConfirmation ? "Es-tu sur ?" : "Supprimer mon compte"}
-        </Button>
+        <MesGroupes />
+        <Container>
+      <Button
+        variant="outlined"
+        color="error"
+        onClick={() => handleDelete()}
+        sx={{ 
+          mt: 2,
+          mb: 2,
+          display: "block",
+          textAlign: "center",
+        }}
+      >
+        {deleteConfirmation ? "Es-tu sur ?" : "Supprimer mon compte"}
+      </Button>
       </Container>
     </>
   );
