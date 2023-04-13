@@ -22,7 +22,12 @@ function Groupes() {
           }}
         >
           <h1>Mes Groupes</h1>
-          <Button variant="contained" component={Link} to="/createGroupe">
+          <Button
+          sx={{
+            backgroundColor: "#048b9a",
+          }}
+
+          variant="contained" component={Link} to="/createGroupe">
             Créer un groupe
           </Button>
         </Container>

@@ -29,10 +29,11 @@ function UserCard({ user, redirect = false }) {
             }}
           >
             <Avatar
-              sx={{ bgcolor: red[500] }}
+              sx={{ backgroundColor: "#048b9a", width: 70, height: 70 }}
               aria-label="recipe"
               alt={user.nickname}
               src="/static/images/avatar/2.jpg"
+
             ></Avatar>
             <Typography variant="h5" component="h1">
               Mon Profil
