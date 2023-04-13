@@ -1,4 +1,4 @@
-import GroupesList from "../components/GroupesList"
+import GroupesList from "../GroupesList"
 import { Container } from "@mui/material"
 import { Link } from "react-router-dom"
 

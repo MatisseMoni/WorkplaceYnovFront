@@ -14,7 +14,6 @@ import User from "./pages/User";
 import Inscription from "./pages/Inscription";
 import Connexion from "./pages/Connexion";
 import Compte from "./pages/Compte";
-import Groupes from "./pages/Groupes";
 import Groupe from "./pages/Groupe";
 import CreateGroupe from "./pages/CreateGroupe";
 import CreateThread from "./pages/CreateThread";
@@ -83,10 +82,6 @@ const router = createBrowserRouter([
       {
         path: "/compte",
         element: <Compte />,
-      },
-      {
-        path: "/groupes",
-        element: <Groupes />,
       },
       {
         path: "/groupes/:idGroupe",
