@@ -25,7 +25,6 @@ function CreateThread () {
                     'Content-Type': 'application/json',
                     "Authorization": `Bearer ${token}` }
             });
-            console.log(reponse);
             navigate(`/groupes/${idGroupe}`);
         })();
     }

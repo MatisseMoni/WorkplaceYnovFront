@@ -34,7 +34,6 @@ function Inscription() {
 					email: email,
 					plainPassword: password,
 				});
-				console.log(response);
 				navigate('/userList');
 			} catch (error) {
 				console.error(error);

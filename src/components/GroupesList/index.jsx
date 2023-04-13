@@ -22,7 +22,6 @@ function GroupesList({ access = "all" }) {
   const [error, setError] = useState(null);
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.auth.user);
-  console.log("currentUser", currentUser);
 
   const retrieveGroupes = async () => {
     try {
@@ -33,7 +32,6 @@ function GroupesList({ access = "all" }) {
           throw new Error("Vous devez être connecté pour accéder à cette page");
         }
         if (access === "owner") {
-          console.log("owner");
           groupesTmp = groupesTmp.filter((groupe) =>
             currentUser.ownedGroups.includes(groupe["@id"])
           );
@@ -42,18 +40,15 @@ function GroupesList({ access = "all" }) {
           });
           dispatch(setGroupesOwned(groupesTmp));
         } else if (access === "member") {
-          console.log("member");
           groupesTmp = groupesTmp.filter((groupe) =>
             currentUser.subscribedGroups.includes(groupe["@id"])
           );
           groupesTmp.forEach((groupe) => {
             groupe.isMember = true;
           });
-          console.log(groupesTmp);
           dispatch(setGroupesMember(groupesTmp));
         }
       } else {
-        console.log("all");
         if (currentUser) {
           groupesTmp.forEach((groupe) => {
             groupe.isMember = currentUser.subscribedGroups.includes(
@@ -93,8 +88,6 @@ function GroupesList({ access = "all" }) {
       container
       spacing={{ xs: 2, md: 3 }}
       columns={{ xs: 4, sm: 8, md: 12 }}
-      direction="row"
-      alignItems="stretch"
     >
       {groupes.map((groupe, index) => (
         <Grid item xs={2} sm={4} md={4} key={index}>
