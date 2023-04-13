@@ -177,7 +177,7 @@ function ResponsiveAppBar() {
 											variant='outlined'
 											key={index}
 											onClick={handleCloseNavMenu}
-											sx={{ my: 2, mr:2,  color: 'white', borderColor: 'white', display: 'block' }}>
+											sx={{ my: 2, mr:2,  color: 'white', borderColor: 'white', display: 'block', ":hover": { borderColor: 'white' }  }}>
 											{linkisnotlogged.name}
 										</Button>
 									</Link>

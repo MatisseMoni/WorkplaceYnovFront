@@ -55,7 +55,8 @@ function GroupCard({ groupe, isGrid = false }) {
 							displayLink ? (
 								<Button
 									variant='contained'
-									sx={{ backgroundColor: '#048b9a' }}
+                  size='small'
+									sx={{ backgroundColor: '#048b9a', ":hover": { background: '#048b9a' } }}
 									endIcon={<VisibilityIcon />}>
 									<Link
 										to={`/groupes/${id}`}
@@ -68,6 +69,7 @@ function GroupCard({ groupe, isGrid = false }) {
 								<Button
 									onClick={requestAccess}
 									variant='contained'
+                  size='small'
 									sx={{ backgroundColor: '#048b9a', color:'white', ":hover": { backgroundColor: '#048b9a', color:'white' } }}
 									endIcon={<SendIcon />}>
 									Demander l'accès

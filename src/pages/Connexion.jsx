@@ -114,7 +114,7 @@ function Connexion() {
 					onClick={() => HandleSubmit()}
                     fullWidth
 					variant='contained'
-					sx={{ mt: 3, mb: 2 }}>
+					sx={{ mt: 3, mb: 2, backgroundColor: "#048b9a", ":hover": { background: '#048b9a' } }}>
 					Se Connecter
 				</Button>
 			</Box>
