@@ -8,6 +8,7 @@ import ThreadsList from '../components/ThreadsList';
 import RequestsList from '../components/RequestsList';
 import { useSelector } from 'react-redux';
 import MembersList from '../components/MembersList';
+import Loader from '../components/Loader';
 
 
 function Groupe () {
@@ -30,9 +31,7 @@ function Groupe () {
 
     if (!groupe) {
         return (
-            <Box sx={{ display: 'block', position: 'absolute', top: '50%', left: '50%', transform: "translate(-50%, -50%)" }}>
-                <CircularProgress />
-            </Box>);
+            <Loader />);
     }
 
 

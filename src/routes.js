@@ -15,6 +15,7 @@ import Compte from './pages/Compte';
 import Groupe from './pages/Groupe';
 import CreateGroupe from './pages/CreateGroupe';
 import CreateThread from './pages/CreateThread';
+import Loader from './components/Loader';
 
 
 const Layout = () => {
@@ -23,7 +24,7 @@ const Layout = () => {
     return (
         <>
             <MenuHeader />
-            {loading ? (<div>Loading...</div>) : (<Outlet />)}
+            <Outlet />
         </>
     );
 };
