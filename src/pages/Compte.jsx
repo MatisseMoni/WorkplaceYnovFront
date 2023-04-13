@@ -8,6 +8,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setUser } from "../store/reducers/auth";
+import MesGroupes from "../components/MesGroupes";
 
 function Compte() {
   const [user, setUser] = useState(null);
@@ -63,6 +64,7 @@ function Compte() {
   return (
     <>
       <UserCard user={user} />
+      <MesGroupes />
       <button onClick={() => handleDelete()}>
         {deleteConfirmation ? "Are you sure ?" : "Delete"}
       </button>

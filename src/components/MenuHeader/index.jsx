@@ -62,7 +62,6 @@ function ResponsiveAppBar() {
     ]
     const settings = [
         { name: 'Compte', path: '/compte' },
-        { name: 'Mes Groupes', path: '/groupes' },
         { name: 'Deconnexion', onClick: () => handleLogout()}]
 
     return (
