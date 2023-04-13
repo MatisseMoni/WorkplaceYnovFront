@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import MenuHeader from './components/MenuHeader';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { login } from './store/reducers/auth';
 import GuestRoute from './routes/GuestRoute';
@@ -18,39 +18,12 @@ import CreateThread from './pages/CreateThread';
 
 
 const Layout = () => {
-    const dispatch = useDispatch();
-    const url = `${process.env.REACT_APP_YOUR_API_URL}/api/users/1/info`;
-    const urlGroupes = `${process.env.REACT_APP_YOUR_API_URL}/api/users/`;
-
-
-    useEffect(() => {
-
-        (async () => {
-            try {
-                const token = localStorage.getItem('token') ? localStorage.getItem('token') : null;
-                if (token) {
-                    const response = await axios.get(url, { headers: { "Authorization": `Bearer ${token}` } });
-                    const data = response.data;
-
-                    const reponseGroupes = await axios.get(`${urlGroupes}${data.id}`, {
-                        headers: { Authorization: `Bearer ${token}` },
-                    });
-
-                    data.ownedGroups = reponseGroupes.data.ownedGroups;
-                    data.subscribedGroups = reponseGroupes.data.subscribedGroups;
-                    dispatch(login(data));
-                }
-            } catch (error) {
-                console.log(error);
-            }
-        }
-        )();
-    }, [url]);
+    const loading = useSelector(state => state.loading.isLoading);
 
     return (
         <>
             <MenuHeader />
-            <Outlet />
+            {loading ? (<div>Loading...</div>) : (<Outlet />)}
         </>
     );
 };
