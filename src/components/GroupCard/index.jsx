@@ -2,6 +2,9 @@ import { CardActions, CardContent } from "@mui/material";
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Card, Typography, Button } from "@mui/material";
+import SendIcon from "@mui/icons-material/Send";
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import Divider from '@mui/material/Divider';
 import axios from "axios";
 
 function GroupCard({
@@ -31,20 +34,22 @@ function GroupCard({
 
   return (
     <>
-      <Card variant="outlined">
+      <Card variant="outlined" sx={{height: '100%'}} >
         <CardContent>
-          <Typography variant="h5" component="div">
+          <Typography variant="h6" component="div" sx={{ textAlign:'center', fontWeight:'bold', mb:'10px'}} >
             {name}
           </Typography>
-          <Typography variant="body2">{description}</Typography>
-          <CardActions>
+          <Divider variant="middle" />
+          <Typography variant="body2" sx={{ marginY: 3}}>{description}</Typography>
+          <Divider variant="middle" />
+          <CardActions sx={{ display: 'flex', justifyContent: 'end', mt:'10px'}}>
             {isGrid ? (
               displayLink ? (
-                <Button>
-                  <Link to={`/groupes/${id}`}>Voir le groupe</Link>
+                <Button variant="outlined" endIcon={<VisibilityIcon />}>
+                  <Link to={`/groupes/${id}`} style={{ textDecoration: 'none'}} color="">Voir le groupe</Link>
                 </Button>
               ) : (
-                <Button onClick={requestAccess}>Demander l'accès</Button>
+                <Button onClick={requestAccess}  variant="outlined" endIcon={<SendIcon />}>Demander l'accès</Button>
               )
             ) : null}
           </CardActions>
