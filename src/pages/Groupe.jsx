@@ -4,10 +4,10 @@ import axios from "axios";
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import GroupCard from "../components/GroupCard";
-import { Link } from "react-router-dom";
 import ThreadsList from '../components/ThreadsList';
 import RequestsList from '../components/RequestsList';
 import { useSelector } from 'react-redux';
+import MembersList from '../components/MembersList';
 
 
 function Groupe () {
@@ -40,9 +40,8 @@ function Groupe () {
         <>
             <GroupCard groupe={groupe} />
             {`/api/user/${currentUser.id}` === groupe.owner ? (<RequestsList groupeId={idGroupe} />) : null}
-            <Link to={`/groupes/${idGroupe}/createThread`}>Ajouter un Thread</Link>
-            <h3>Threads</h3>
             <ThreadsList groupeId={idGroupe} />
+            <MembersList groupId={idGroupe} owner={groupe.owner} />
         </>
     )
 }
