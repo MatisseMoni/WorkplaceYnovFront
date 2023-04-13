@@ -70,7 +70,7 @@ function ResponsiveAppBar() {
 	return (
 		<AppBar
 			position='static'
-			sx={{ marginBottom: 5, background: 'white' }}>
+			sx={{ marginBottom: 5, background: '#171E1E' }}>
 			<Container maxWidth='xl' >
 				<Toolbar disableGutters>
 					<Typography
@@ -83,7 +83,7 @@ function ResponsiveAppBar() {
 							display: { xs: 'none', md: 'flex' },
 							fontWeight: 700,
 							letterSpacing: '.3rem',
-							color: 'black',
+							color: 'white',
 							textDecoration: 'none',
 						}}>
 						Ynov Workplace
@@ -133,7 +133,7 @@ function ResponsiveAppBar() {
 											<Button
 												key={index}
 												onClick={handleCloseNavMenu}
-												sx={{ my: 2, color: 'black', display: 'block' }}>
+												sx={{ my: 2, color: 'white', display: 'block' }}>
 												{linkisnotlogged.name}
 											</Button>
 										</Link>
@@ -174,9 +174,10 @@ function ResponsiveAppBar() {
 							: linksisnotlogged.map((linkisnotlogged, index) => (
 									<Link to={linkisnotlogged.path} style={{ textDecoration: 'none' }}>
 										<Button
+											variant='outlined'
 											key={index}
 											onClick={handleCloseNavMenu}
-											sx={{ my: 2, color: 'black', display: 'block' }}>
+											sx={{ my: 2, mr:2,  color: 'white', borderColor: 'white', display: 'block', ":hover": { borderColor: 'white' }  }}>
 											{linkisnotlogged.name}
 										</Button>
 									</Link>
@@ -189,6 +190,7 @@ function ResponsiveAppBar() {
 									onClick={handleOpenUserMenu}
 									sx={{ p: 0 }}>
 									<Avatar
+										sx={{ backgroundColor: "#048b9a", }}
 										alt={user.nickname}
 										src='/static/images/avatar/2.jpg'
 									/>
