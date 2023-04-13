@@ -9,6 +9,7 @@ import { login } from '../store/reducers/auth';
 function Connexion() {
 	const url = `${process.env.REACT_APP_YOUR_API_URL}/auth`;
 	const urlInfos = `${process.env.REACT_APP_YOUR_API_URL}/api/users/1/info`;
+	const urlGroupes = `${process.env.REACT_APP_YOUR_API_URL}/api/users/`;
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const navigate = useNavigate();
@@ -29,6 +30,10 @@ function Connexion() {
 						},
 					}
 				);
+				if (response.status !== 200) {
+					throw new Error(response.data.message);
+				}
+
 				let token = response.data.token;
 				localStorage.setItem('token', token);
 
@@ -36,6 +41,16 @@ function Connexion() {
 					headers: { Authorization: `Bearer ${token}` },
 				});
 				const data = reponseInfos.data;
+
+				const reponseGroupes = await axios.get(`${urlGroupes}${data.id}`, {
+					headers: { Authorization: `Bearer ${token}` },
+				});
+
+				data.ownedGroups = reponseGroupes.data.ownedGroups;
+				data.subscribedGroups = reponseGroupes.data.subscribedGroups;
+
+				console.log(data);
+
 				dispatch(login(data));
 
 				navigate('/compte');

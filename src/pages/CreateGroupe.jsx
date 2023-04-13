@@ -21,7 +21,7 @@ function CreateGroupe () {
                     "Authorization": `Bearer ${token}` }
             });
             console.log(reponse);
-            navigate('/groupes');
+            navigate('/compte');
         })();
     }
 
