@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import axios from "axios";
 import { useNavigate, useParams } from 'react-router-dom';
-import { Container, Typography, Box, TextField, Button } from '@mui/material';
-
+import {  Typography, Box, TextField, Button } from '@mui/material';
+import Avatar from '@mui/material/Avatar';
+import CommentIcon from '@mui/icons-material/Comment';
 
 function CreateThread () {
     let { idGroupe } = useParams();
@@ -30,8 +31,17 @@ function CreateThread () {
     }
 
     return (
-        <Container>
-            <Typography variant="h1" component="div">
+        <Box
+        sx={{
+            marginTop: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+        }}>
+            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+				<CommentIcon />
+			</Avatar>
+            <Typography variant="h5" component="h1">
                 Créer un thread
             </Typography>
             <Box
@@ -51,9 +61,9 @@ function CreateThread () {
                     setContent(e.target.value);
                 }
                 } id="content" label="Content" type="text" variant="outlined" />
-                <Button onClick={() => handleSubmit()} variant="outlined">Créer</Button>
+                <Button fullWidth onClick={() => handleSubmit()} variant="contained">Créer</Button>
             </Box>
-        </Container>
+        </Box>
     )
 }
 
