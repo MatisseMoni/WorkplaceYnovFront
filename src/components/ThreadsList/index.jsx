@@ -12,7 +12,6 @@ function ThreadsList({ groupeId }) {
       const response = await axios.get(url, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      console.log(response);
       const threadsTmp = response.data["hydra:member"].filter((thread) => {
         return thread.relatedGroup === `/api/groups/${groupeId}`;
       });

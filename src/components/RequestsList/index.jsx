@@ -29,7 +29,6 @@ function RequestsList ({groupeId}) {
             let requestsTmp = response.data["hydra:member"];
 
             requestsTmp = requestsTmp.map((request) => request.this.status === 0)
-            console.log("requestsTmp", requestsTmp);
             setRequests(requestsTmp);
         } catch (error) {
             console.error(error);

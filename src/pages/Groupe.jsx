@@ -18,7 +18,6 @@ function Groupe () {
 
     useEffect(() => {
         (async () => {
-            console.log(currentUser, idGroupe);
             try {
                 const response = await axios.get(url);
                 setGroupe(response.data);

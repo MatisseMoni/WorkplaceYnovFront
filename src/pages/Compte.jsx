@@ -28,7 +28,6 @@ function Compte() {
       setDeleteConfirmation(true);
       return;
     }
-    console.log("delete");
     try {
       let response = await axios.delete(`${urlDelete}${currentUser.id}`);
       dispatch(setUser(null));
