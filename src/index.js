@@ -1,135 +1,29 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import UserList from "./pages/UserList";
 import {
-  createBrowserRouter,
-  RouterProvider,
-  Outlet,
+  BrowserRouter,
 } from "react-router-dom";
-import MenuHeader from "./components/MenuHeader";
-import User from "./pages/User";
-import Inscription from "./pages/Inscription";
-import Connexion from "./pages/Connexion";
-import Compte from "./pages/Compte";
-import Groupe from "./pages/Groupe";
-import CreateGroupe from "./pages/CreateGroupe";
-import CreateThread from "./pages/CreateThread";
-
 import { Provider } from "react-redux";
 import store from "./store/store";
-import { useSelector, useDispatch } from 'react-redux';
-import axios from 'axios';
-import { login } from './store/reducers/auth';
-import { useEffect } from "react";
+import App from "./App";
 
 
 
-const Layout = () => {
-  const dispatch = useDispatch();
-  const url = `${process.env.REACT_APP_YOUR_API_URL}/api/users/1/info`;
-  const urlGroupes = `${process.env.REACT_APP_YOUR_API_URL}/api/users/`;
-
-
-  useEffect(() => {
-  
-    (async () => {
-        try {
-          const token = localStorage.getItem('token') ? localStorage.getItem('token') : null;
-          if (token) {
-            const response = await axios.get(url, { headers: { "Authorization": `Bearer ${token}` } });
-            const data = response.data;
-            
-            const reponseGroupes = await axios.get(`${urlGroupes}${data.id}`, {
-              headers: { Authorization: `Bearer ${token}` },
-            });
-    
-            data.ownedGroups = reponseGroupes.data.ownedGroups;
-            data.subscribedGroups = reponseGroupes.data.subscribedGroups;
-            dispatch(login(data));
-          }
-        } catch (error) {
-            console.log(error);
-        }
-    }
-    )();
-  }, [url]);
-
-  return (
-    <>
-      <MenuHeader />
-      <Outlet />
-    </>
-  );
-};
-const router = createBrowserRouter([
-  {
-    element: <Layout />,
-    children: [
-      {
-        path: "/",
-        element: <App />,
-      },
-      {
-        path: "/userList",
-        element: <UserList />,
-      },
-      {
-        path: "/userList/:idUser",
-        element: <User />,
-      },
-      {
-        path: "/inscription",
-        element: <Inscription />,
-      },
-      {
-        path: "/connexion",
-        element: <Connexion />,
-      },
-      {
-        path: "/compte",
-        element: <Compte />,
-      },
-      {
-        path: "/groupes/:idGroupe",
-        element: <Groupe />,
-      },
-      {
-        path: "/createGroupe",
-        element: <CreateGroupe />,
-      },
-      {
-        path: "/groupes/:idGroupe/createThread",
-        element: <CreateThread />,
-      },
-      {
-        path: "*",
-        element: <div>404</div>,
-      }
-    ],
-  },
-]);
-
-/* const cors = require('cors');
-const corsOptions ={
-    origin:'http://localhost:3000', 
-    credentials:true,            //access-control-allow-credentials:true
-    optionSuccessStatus:200
-}
-app.use(cors(corsOptions)); */
+/* Promise.all([retriveLoggedUser(), RetriveUsers()]).finally(() => {
+  store.dispatch(setLoading(false));
+}); */
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <RouterProvider router={router} />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </Provider>
   </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
