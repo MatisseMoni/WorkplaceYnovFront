@@ -9,6 +9,8 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setUser } from "../store/reducers/auth";
 import MesGroupes from "../components/MesGroupes";
+import Button from "@mui/material/Button";
+import { Container } from "@mui/material";
 
 function Compte() {
   const [user, setUser] = useState(null);
@@ -65,9 +67,16 @@ function Compte() {
     <>
       <UserCard user={user} />
       <MesGroupes />
-      <button onClick={() => handleDelete()}>
-        {deleteConfirmation ? "Are you sure ?" : "Delete"}
-      </button>
+      <Container>
+        <Button
+          variant="outlined"
+          color="error"
+          onClick={() => handleDelete()}
+          sx={{ marginTop: 2 }}
+        >
+          {deleteConfirmation ? "Es-tu sur ?" : "Supprimer mon compte"}
+        </Button>
+      </Container>
     </>
   );
 }
