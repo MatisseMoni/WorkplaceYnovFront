@@ -5,6 +5,9 @@ import Card from '@mui/material/Card';
 import Container from '@mui/material/Container';
 import { Typography } from '@mui/material';
 import Box from '@mui/material/Box';
+import AddIcon from '@mui/icons-material/Add';
+import Button from '@mui/material/Button';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 function ThreadsList({ groupeId }) {
 	const [threads, setThreads] = useState([]);
@@ -26,15 +29,18 @@ function ThreadsList({ groupeId }) {
 	return (
 		<Card sx={{ width: '300px' }}>
 			<Container>
-				<Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+				<Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
 					<Typography
 						variant='h6'
 						component='h1'
-						textAlign='center'>
+						textAlign='center'
+						sx={{mt: 2}}>
 						Threads
 					</Typography>
 					<Link to={`/groupes/${groupeId}/createThread`}>
-						Ajouter
+						<Button variant='contained' size='small' endIcon={<AddIcon />} sx={{ background: '#048b9a',  ":hover": { background: '#048b9a' } }}>
+							Ajouter
+						</Button>
 					</Link>
 				</Box>
 
@@ -47,7 +53,9 @@ function ThreadsList({ groupeId }) {
 								<h3>{thread.title}</h3>
 								<p>{thread.slug}</p>
 								<Link to={`/groupes/${groupeId}/threads/${id}`}>
-									Voir le thread
+									<Button size='small' startIcon={<VisibilityIcon />} sx={{ color: '#048b9a'}}>
+										Voir le thread
+									</Button>
 								</Link>
 							</li>
 						);
