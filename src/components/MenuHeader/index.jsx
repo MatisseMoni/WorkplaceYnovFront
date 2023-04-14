@@ -63,7 +63,7 @@ function ResponsiveAppBar() {
 	];
 
 	const settings = [
-		{ name: 'Compte', path: '/compte' },
+		{ name: 'Mon Compte', path: '/compte' },
 		{ name: 'Deconnexion', onClick: () => handleLogout() },
 	];
 
@@ -217,16 +217,16 @@ function ResponsiveAppBar() {
 										onClick={handleCloseUserMenu}>
 										{setting.path ? (
 											<Link to={setting.path}>
-												<Typography textAlign='center'>
+												<Button sx={{ color: 'black' }}>
 													{setting.name}
-												</Typography>
+												</Button>
 											</Link>
 										) : (
-											<Typography
-												textAlign='center'
+											<Button
+												sx={{ color: 'black' }}
 												onClick={setting.onClick}>
 												{setting.name}
-											</Typography>
+											</Button>
 										)}
 									</MenuItem>
 								))}
