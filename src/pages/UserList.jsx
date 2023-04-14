@@ -6,6 +6,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import ErrorsPage from '../components/ErrorsPage';
 import { useSelector, useDispatch } from 'react-redux';
 import { setUsers as setUsersReducer } from '../store/reducers/user';
+import Loader from '../components/Loader';
 
 function UserList() {
     // Fetch users from API
@@ -41,9 +42,7 @@ function UserList() {
 
     if (!users) {
         return (
-            <Box sx={{ display: 'block', position: 'absolute', top: '50%', left: '50%', transform: "translate(-50%, -50%)" }}>
-                <CircularProgress />
-            </Box>);
+            <Loader />);
     }
 
     return (

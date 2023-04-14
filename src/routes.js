@@ -24,7 +24,7 @@ const Layout = () => {
     return (
         <>
             <MenuHeader />
-            {loading ? (<div>Loading...</div>) : (<Outlet />)}
+            <Outlet />
         </>
     );
 };

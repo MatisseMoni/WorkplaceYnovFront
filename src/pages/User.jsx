@@ -4,6 +4,7 @@ import UserCard from "../components/UserCard";
 import axios from "axios";
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
+import Loader from '../components/Loader';
 
 
 
@@ -26,9 +27,7 @@ function User() {
 
     if (!user) {
         return (
-            <Box sx={{ display: 'block', position: 'absolute', top: '50%', left: '50%', transform: "translate(-50%, -50%)" }}>
-                <CircularProgress />
-            </Box>);
+            <Loader />);
     }
 
     return (

@@ -12,6 +12,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import ErrorsPage from "../ErrorsPage";
 import GroupCard from "../GroupCard";
 import Grid from "@mui/material/Grid";
+import Loader from "../Loader";
 
 function GroupesList({ access = "all" }) {
   const [groupes, setGroupes] = useState([]);
@@ -72,9 +73,7 @@ function GroupesList({ access = "all" }) {
 
   if (!groupes) {
     return (
-      <Box sx={{ display: "flex" }}>
-        <CircularProgress />
-      </Box>
+      <Loader />
     );
   }
 

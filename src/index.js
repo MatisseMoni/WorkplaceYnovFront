@@ -13,12 +13,9 @@ import axios from "axios";
 import { login } from "./store/reducers/auth";
 import { useDispatch } from "react-redux";
 
-Promise.all([RetriveUsers()]).finally(() => {
-  store.dispatch(setLoading(false));
-});
 
-async function RetriveUsers () {
-  const dispatch = useDispatch();
+
+async function retriveLoggedUsers () {
   const url = `${process.env.REACT_APP_YOUR_API_URL}/api/users/1/info`;
   const urlGroupes = `${process.env.REACT_APP_YOUR_API_URL}/api/users/`;
 
@@ -34,12 +31,18 @@ async function RetriveUsers () {
 
           data.ownedGroups = reponseGroupes.data.ownedGroups;
           data.subscribedGroups = reponseGroupes.data.subscribedGroups;
-          dispatch(login(data));
+          console.log(data);
+          store.dispatch(login(data));
       }
   } catch (error) {
-      console.log(error);
+    localStorage.removeItem('token');
+    console.log(error);
   }
 };
+
+Promise.all([retriveLoggedUsers()]).finally(() => {
+  store.dispatch(setLoading(false));
+});
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

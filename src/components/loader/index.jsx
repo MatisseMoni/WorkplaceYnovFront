@@ -2,16 +2,22 @@ import * as React from "react";
 import Stack from "@mui/material/Stack";
 import CircularProgress from "@mui/material/CircularProgress";
 import LinearProgress from "@mui/material/LinearProgress";
+import Box from "@mui/material/Box";
 
-export default function CircularColor() {
+function Loader() {
   return (
-    <Stack sx={{ color: "grey.500" }} spacing={2} direction="row">
-      <CircularProgress color="secondary" />
-      <CircularProgress color="success" />
-      <CircularProgress color="inherit" />
-      <Box sx={{ width: "100%" }}>
-        <LinearProgress />
+    <Box
+        sx={{
+          display: "block",
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+        }}
+      >
+        <CircularProgress />
       </Box>
-    </Stack>
   );
 }
+
+export default Loader;
