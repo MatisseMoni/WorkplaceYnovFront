@@ -8,6 +8,7 @@ import ThreadsList from '../components/ThreadsList';
 import RequestsList from '../components/RequestsList';
 import { useSelector } from 'react-redux';
 import MembersList from '../components/MembersList';
+import Container from '@mui/material/Container';
 
 function Groupe() {
 	let { idGroupe } = useParams();
