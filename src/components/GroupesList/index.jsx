@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  setGroupes as setGroupesAll,
-  setGroupesMember,
-  setGroupesOwned,
-} from "../../store/reducers/groupe";
+import {setGroupes as setGroupesAll} from "../../store/reducers/groupe";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import { Box, Container } from "@mui/material";

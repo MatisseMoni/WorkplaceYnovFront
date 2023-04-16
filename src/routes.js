@@ -16,6 +16,7 @@ import Groupe from './pages/Groupe';
 import CreateGroupe from './pages/CreateGroupe';
 import CreateThread from './pages/CreateThread';
 import Error404 from './pages/Error404';
+import Thread from './pages/Thread';
 
 
 const Layout = () => {
@@ -71,11 +72,11 @@ const routes = () =>
                     element: (PrivateRoute(<CreateThread />)),
                 },
                 {
-                    path: "*",
-                    element: <div>404</div>,
+                    path: "/groupes/:idGroupe/threads/:idThread",
+                    element: (PrivateRoute(<Thread />)),
                 },
                 {
-                    path: "/Error404",
+                    path: "*",
                     element: <Error404/>,
                 }
             ]

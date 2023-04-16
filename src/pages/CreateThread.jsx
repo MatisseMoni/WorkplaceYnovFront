@@ -4,6 +4,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import {  Typography, Box, TextField, Button } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import CommentIcon from '@mui/icons-material/Comment';
+import { useDispatch } from 'react-redux';
+import {setGroupes as setGroupesAll} from "../store/reducers/groupe";
 
 function CreateThread () {
     let { idGroupe } = useParams();
@@ -12,9 +14,11 @@ function CreateThread () {
     const [content, setContent] = useState("");
     const url = `${process.env.REACT_APP_YOUR_API_URL}/api/threads`;
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     function handleSubmit () {
         (async () => {
+            try {
             const token = localStorage.getItem('token');
             const reponse = await axios.post(url, {
                 title: title,
@@ -25,7 +29,11 @@ function CreateThread () {
                     'Content-Type': 'application/json',
                     "Authorization": `Bearer ${token}` }
             });
+            dispatch(setGroupesAll(null));
             navigate(`/groupes/${idGroupe}`);
+            } catch (error) {
+                console.error(error);
+            }
         })();
     }
 

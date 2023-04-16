@@ -1,55 +1,110 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import axios from 'axios';
-import Box from '@mui/material/Box';
-import CircularProgress from '@mui/material/CircularProgress';
-import GroupCard from '../components/GroupCard';
-import ThreadsList from '../components/ThreadsList';
-import RequestsList from '../components/RequestsList';
-import { useSelector } from 'react-redux';
-import MembersList from '../components/MembersList';
-import Container from '@mui/material/Container';
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import Box from "@mui/material/Box";
+import CircularProgress from "@mui/material/CircularProgress";
+import GroupCard from "../components/GroupCard";
+import ThreadsList from "../components/ThreadsList";
+import RequestsList from "../components/RequestsList";
+import { useSelector } from "react-redux";
+import MembersList from "../components/MembersList";
+import Container from "@mui/material/Container";
+import Button from "@mui/material/Button";
+import DeleteIcon from '@mui/icons-material/Delete';
+import { useNavigate } from "react-router-dom";
+
 
 function Groupe() {
-	let { idGroupe } = useParams();
-	const [groupe, setGroupe] = useState();
-	const url = `${process.env.REACT_APP_YOUR_API_URL}/api/groups/${idGroupe}`;
-	const currentUser = useSelector((state) => state.auth.user);
+  let { idGroupe } = useParams();
+  const [groupe, setGroupe] = useState();
+  const [deleteConfirmation, setDeleteConfirmation] = useState(false);
+  const url = `${process.env.REACT_APP_YOUR_API_URL}/api/groups/${idGroupe}`;
+  const currentUser = useSelector((state) => state.auth.user);
+  const navigate = useNavigate();
 
-	useEffect(() => {
-		(async () => {
-			try {
-				const response = await axios.get(url);
-				setGroupe(response.data);
-			} catch (error) {
-				console.error(error);
-			}
-		})();
-	}, [idGroupe, currentUser]);
-
-    if (!groupe) {
-        return (
-            <Box sx={{ display: 'block', position: 'absolute', top: '50%', left: '50%', transform: "translate(-50%, -50%)" }}>
-                <CircularProgress />
-            </Box>);
+  function handleDelete() {
+    if (!deleteConfirmation) {
+      setDeleteConfirmation(true);
+      return;
     }
+    (async () => {
+      try {
+        const response = await axios.delete(url);
+        console.log(response);
+        navigate("/compte");
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+  }
 
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await axios.get(url);
+        setGroupe(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+  }, [idGroupe, currentUser]);
 
-	return (
-		<Container>
-			<GroupCard groupe={groupe} />
-			{`/api/user/${currentUser.id}` === groupe.owner ? (
-				<RequestsList groupeId={idGroupe} />
-			) : null}
-			<Box sx={{ display: 'flex', justifyContent:'space-around', mt: 5}}>
-				<ThreadsList groupeId={idGroupe} />
-				<MembersList
-					groupId={idGroupe}
-					owner={groupe.owner}
-				/>
-			</Box>
-		</Container>
-	);
+  if (!groupe) {
+    return (
+      <Box
+        sx={{
+          display: "block",
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  return (
+    <Container>
+      <GroupCard groupe={groupe} />
+      {`/api/user/${currentUser.id}` === groupe.owner ? (
+        <RequestsList groupeId={idGroupe} />
+      ) : null}
+      <Box sx={{ display: "flex", justifyContent: "space-around", mt: 5 }}>
+        <ThreadsList groupeId={idGroupe} />
+        <MembersList groupId={idGroupe} owner={groupe.owner} />
+      </Box>
+	  <Box sx={{ display: "flex", justifyContent: "flex-start" }}>
+      <Button
+        variant="outlined"
+        color="error"
+        sx={{
+          mt: 2,
+          mb: 2,
+          textAlign: "center",
+        }}
+		startIcon={<DeleteIcon />}
+        onClick={() => handleDelete()}
+      >
+        {deleteConfirmation ? "Es-tu sur ?" : "Supprimer le groupe"}
+      </Button>
+      {deleteConfirmation ? (
+        <Button
+          variant="text"
+          sx={{
+            mt: 2,
+            mb: 2,
+            textAlign: "center",
+			ml : 2
+          }}
+          onClick={() => (setDeleteConfirmation(false))}
+        >
+			annuler
+		</Button>
+      ) : null}</Box>
+    </Container>
+  );
 }
 
 export default Groupe;
