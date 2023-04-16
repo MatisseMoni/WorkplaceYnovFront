@@ -2,17 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const groupeSlice = createSlice({
     name: "groupe",
-    initialState: {groupes: [], groupesOwned: [], groupesMember: {}},
+    initialState: {groupes: []},
     reducers: {
         setGroupes: (state, action) => {
             state.groupes = action.payload;
         },
-        setGroupesOwned: (state, action) => {
-            state.groupesOwned = action.payload;
-        },
-        setGroupesMember: (state, action) => {
-            state.groupesMember = action.payload;
-        }
     }
 });
 
