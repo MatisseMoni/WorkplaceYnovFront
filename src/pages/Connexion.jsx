@@ -12,6 +12,7 @@ function Connexion() {
 	const urlGroupes = `${process.env.REACT_APP_YOUR_API_URL}/api/users/`;
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
+	const [connexionError, setConnexionError] = useState(false);
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
@@ -53,6 +54,7 @@ function Connexion() {
 
 				navigate('/compte');
 			} catch (error) {
+				setConnexionError(true);
 				console.error(error);
 			}
 		})();
@@ -91,6 +93,7 @@ function Connexion() {
 				}}
 				noValidate
 				autoComplete='off'>
+					{connexionError ? <Typography color="error">Email ou mot de passe incorrect</Typography> : null}
 				<TextField
 					value={email}
 					onChange={(e) => {

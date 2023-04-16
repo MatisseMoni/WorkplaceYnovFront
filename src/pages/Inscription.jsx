@@ -14,15 +14,16 @@ function Inscription() {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [passwordConfirmation, setPasswordConfirmation] = useState('');
-	const [error, setError] = useState(false);
+	const [wrongPassword, setWrongPassword] = useState(false);
+	const [inscriptionError, setInscriptionError] = useState(false);
 	const navigate = useNavigate();
 
 	function HandelChangePasswordConfirmation(e) {
 		setPasswordConfirmation(e.target.value);
 		if (password !== e.target.value) {
-			setError(true);
+			setWrongPassword(true);
 		} else {
-			setError(false);
+			setWrongPassword(false);
 		}
 	}
 
@@ -34,9 +35,10 @@ function Inscription() {
 					email: email,
 					plainPassword: password,
 				});
-				navigate('/userList');
+				navigate('/');
 			} catch (error) {
-				console.error(error);
+				setInscriptionError(true);
+				throw new Error(error);
 			}
 		})();
 	}
@@ -74,6 +76,14 @@ function Inscription() {
 				}}
 				noValidate
 				autoComplete='off'>
+				{inscriptionError ? (
+					<Typography
+						variant='body1'
+						component='p'
+						color='error'>
+							An error occured during the inscription
+					</Typography>
+				) : null}
 				<TextField
 					value={nickname}
 					onChange={(e) => {
@@ -109,8 +119,8 @@ function Inscription() {
 					label='Password Confirmation'
 					type='password'
 					variant='outlined'
-					error={error}
-					helperText={error ? 'Passwords do not match' : null}
+					error={wrongPassword}
+					helperText={wrongPassword ? 'Passwords do not match' : null}
 				/>
 				<Button
 					onClick={() => HandleSubmit()}
