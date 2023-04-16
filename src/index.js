@@ -31,7 +31,6 @@ async function retriveLoggedUsers () {
 
           data.ownedGroups = reponseGroupes.data.ownedGroups;
           data.subscribedGroups = reponseGroupes.data.subscribedGroups;
-          console.log(data);
           store.dispatch(login(data));
       }
   } catch (error) {
