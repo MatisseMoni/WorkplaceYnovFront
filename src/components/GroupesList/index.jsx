@@ -8,8 +8,6 @@ import {
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import { Box, Container } from "@mui/material";
-import CircularProgress from "@mui/material/CircularProgress";
-import ErrorsPage from "../ErrorsPage";
 import GroupCard from "../GroupCard";
 import Grid from "@mui/material/Grid";
 import Loader from "../Loader";
@@ -36,11 +34,10 @@ function GroupesList({ access = "all" }) {
             groupe["@id"]
           );
           groupe.isOwner = currentUser.ownedGroups.includes(groupe["@id"]);
-          console.log("groupe", groupe);
         });
-        dispatch(setGroupesAll(groupesTmp));
-        return groupesTmp;
       }
+      dispatch(setGroupesAll(groupesTmp));
+      return groupesTmp;
     } catch (error) {
       setError(error);
     }
@@ -62,6 +59,7 @@ function GroupesList({ access = "all" }) {
 
   useEffect(() => {
     (async () => {
+      if (!currentUser && access != "all") throw new Error("Not logged in");
       let g;
       if (!groupesInternal || currentPage != 1) {
         g = await retrieveGroupes();
