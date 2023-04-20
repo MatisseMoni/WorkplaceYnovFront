@@ -48,7 +48,7 @@ function GroupesList({ access = "all" }) {
 
   function getMemberGroupes(groupes) {
     if (groupes.length > 0) {
-      return groupes.filter((groupe) => groupe.isMember);
+      return groupes.filter((groupe) => groupe.isMember && !groupe.isOwner);
     }
     return [];
   }
