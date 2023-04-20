@@ -4,25 +4,60 @@ import { useNavigate } from 'react-router-dom';
 import { Typography, Box, TextField, Button } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
+import { useDispatch } from 'react-redux';
+import {setGroupes } from "../store/reducers/groupe";
 
 function CreateGroupe () {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const url = `${process.env.REACT_APP_YOUR_API_URL}/api/groups`;
+    const urlGroupRequest = `${process.env.REACT_APP_YOUR_API_URL}/api/group_requests`;
+
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     function handleSubmit () {
         (async () => {
-            const token = localStorage.getItem('token');
-            const reponse = await axios.post(url, {
-                name: name,
-                description: description,
-            }, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    "Authorization": `Bearer ${token}` }
-            });
-            navigate('/compte');
+            try {
+                const token = localStorage.getItem('token');
+                const reponseCreate = await axios.post(url, {
+                    name: name,
+                    description: description,
+                }, {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+                console.log(reponseCreate);
+                if (reponseCreate.status !== 201) {
+                    throw new Error('Erreur lors de la création du groupe');
+                }
+                const reponseRequest = await axios.post(
+                    urlGroupRequest,
+                    {
+                        targetGroup: reponseCreate.data['@id'],
+                    },
+                    {
+                        headers: { Authorization: `Bearer ${token}` },
+                    }
+                );
+                console.log(reponseRequest);
+                if (reponseRequest.status !== 201) {
+                    throw new Error('Erreur lors de la création de la demande');
+                }
+                const reponseAccept = await axios.post(
+                    `${urlGroupRequest}/${reponseRequest.data.id}/accept`,
+                    {},
+                    {
+                        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+                    }
+                );
+                console.log(reponseAccept);
+                dispatch(setGroupes(null));
+                navigate(`/groupes/${reponseCreate.data.id}`);
+            }
+            catch (error) {
+                console.error(error);
+            }
+            
         })();
     }
 

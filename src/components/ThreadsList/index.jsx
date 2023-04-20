@@ -22,6 +22,7 @@ function ThreadsList({ groupeId }) {
 			const threadsTmp = response.data['hydra:member'].filter((thread) => {
 				return thread.relatedGroup === `/api/groups/${groupeId}`;
 			});
+			console.log(response, threadsTmp);
 			setThreads(threadsTmp);
 		})();
 	}, [groupeId]);
