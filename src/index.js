@@ -15,24 +15,24 @@ import { useDispatch } from "react-redux";
 
 
 
-async function retriveLoggedUsers () {
-  const url = `${process.env.REACT_APP_YOUR_API_URL}/api/users/9/info`;
+async function retriveLoggedUsers() {
+  const url = `${process.env.REACT_APP_YOUR_API_URL}/api/users/${process.env.REACT_APP_YOUR_API_ID_INFO}/info`;
   const urlGroupes = `${process.env.REACT_APP_YOUR_API_URL}/api/users/`;
 
   try {
-      const token = localStorage.getItem('token') ? localStorage.getItem('token') : null;
-      if (token) {
-          const response = await axios.get(url, { headers: { "Authorization": `Bearer ${token}` } });
-          const data = response.data;
+    const token = localStorage.getItem('token') ? localStorage.getItem('token') : null;
+    if (token) {
+      const response = await axios.get(url, { headers: { "Authorization": `Bearer ${token}` } });
+      const data = response.data;
 
-          const reponseGroupes = await axios.get(`${urlGroupes}${data.id}`, {
-              headers: { Authorization: `Bearer ${token}` },
-          });
+      const reponseGroupes = await axios.get(`${urlGroupes}${data.id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
-          data.ownedGroups = reponseGroupes.data.ownedGroups;
-          data.subscribedGroups = reponseGroupes.data.subscribedGroups;
-          store.dispatch(login(data));
-      }
+      data.ownedGroups = reponseGroupes.data.ownedGroups;
+      data.subscribedGroups = reponseGroupes.data.subscribedGroups;
+      store.dispatch(login(data));
+    }
   } catch (error) {
     localStorage.removeItem('token');
     console.log(error);
