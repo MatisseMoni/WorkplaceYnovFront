@@ -37,15 +37,15 @@ const routes = () =>
             children: [
                 {
                     path: "/",
-                    element: <Home />,
+                    element:(PrivateRoute(<Home />)),
                 },
                 {
                     path: "/userList",
-                    element: <UserList />,
+                    element:(PrivateRoute(<UserList />)),
                 },
                 {
                     path: "/userList/:idUser",
-                    element: <User />,
+                    element: (PrivateRoute(<User />)),
                 },
                 {
                     path: "/inscription",
