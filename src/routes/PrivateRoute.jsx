@@ -9,7 +9,7 @@ const PrivateRoute = (Component) => {
         return <Loader />
     }
     return (
-        loggedUser ? Component : <Navigate to="/" /> 
+        loggedUser ? Component : <Navigate to="/connexion" />
     )
 }
 

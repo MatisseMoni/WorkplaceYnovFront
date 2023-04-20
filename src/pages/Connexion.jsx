@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Avatar, Typography, Box, TextField, Button } from '@mui/material';
+import { Snackbar, Alert } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useDispatch } from 'react-redux';
 import { login } from '../store/reducers/auth';
@@ -12,9 +13,14 @@ function Connexion() {
 	const urlGroupes = `${process.env.REACT_APP_YOUR_API_URL}/api/users/`;
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
+	const [open, setOpen] = useState(true);
 	const [connexionError, setConnexionError] = useState(false);
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
+
+	const handleClose = () => {
+		setOpen(false);
+	};
 
 	function HandleSubmit() {
 		(async () => {
@@ -55,6 +61,7 @@ function Connexion() {
 				navigate('/compte');
 			} catch (error) {
 				setConnexionError(true);
+				setOpen(true);
 				console.error(error);
 			}
 		})();
@@ -68,6 +75,12 @@ function Connexion() {
 				flexDirection: 'column',
 				alignItems: 'center',
 			}}>
+			<Snackbar
+				open={open}
+				autoHideDuration={4000}
+				onClose={handleClose}>
+				<Alert severity='warning'>Veuillez vous connecter pour accèder au site !</Alert>
+			</Snackbar>
 			<Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
 				<LockOutlinedIcon />
 			</Avatar>
@@ -93,7 +106,9 @@ function Connexion() {
 				}}
 				noValidate
 				autoComplete='off'>
-					{connexionError ? <Typography color="error">Email ou mot de passe incorrect</Typography> : null}
+				{connexionError ? (
+					<Typography color='error'>Email ou mot de passe incorrect</Typography>
+				) : null}
 				<TextField
 					value={email}
 					onChange={(e) => {
@@ -115,9 +130,14 @@ function Connexion() {
 				/>
 				<Button
 					onClick={() => HandleSubmit()}
-                    fullWidth
+					fullWidth
 					variant='contained'
-					sx={{ mt: 3, mb: 2, backgroundColor: "#048b9a", ":hover": { background: '#048b9a' } }}>
+					sx={{
+						mt: 3,
+						mb: 2,
+						backgroundColor: '#048b9a',
+						':hover': { background: '#048b9a' },
+					}}>
 					Se Connecter
 				</Button>
 			</Box>
