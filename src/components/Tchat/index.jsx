@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Loader from "../Loader";
+import { useSelector } from "react-redux";
 
 function Tchat({ thread }) {
     const id = thread['@id'].split('/')[3];
   const url = `${process.env.REACT_APP_YOUR_API_URL}/api/threads/${id}/messages`;
   const urlSend = `${process.env.REACT_APP_YOUR_API_URL}/api/messages`;
+  const currentUser = useSelector((state) => state.auth.user);
 
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
@@ -63,7 +65,8 @@ function Tchat({ thread }) {
           {messages.map((message) => (
             <li key={message.id}>
               <p>{message.content}</p>
-              <p>{message.owner}</p>
+              {`/api/users/${currentUser.id}` === message.owner ? 
+              (<h2>Me</h2>) : (<h2>{message.owner}</h2>)}
             </li>
           ))}
         </ul>
