@@ -16,7 +16,7 @@ import { useDispatch } from "react-redux";
 
 
 async function retriveLoggedUsers () {
-  const url = `${process.env.REACT_APP_YOUR_API_URL}/api/users/1/info`;
+  const url = `${process.env.REACT_APP_YOUR_API_URL}/api/users/9/info`;
   const urlGroupes = `${process.env.REACT_APP_YOUR_API_URL}/api/users/`;
 
   try {
