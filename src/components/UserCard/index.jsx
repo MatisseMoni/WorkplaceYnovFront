@@ -39,13 +39,13 @@ function UserCard({ user, redirect = false }) {
               Mon Profil
             </Typography>
           </Box>
-          <Typography component="div">
-            <h3>Utilisateur:</h3>
+          <Typography component="h3" sx={{ mb: 1.5 }} color="text.secondary">
+            Utilisateur:<br/>
             {user.nickname}
           </Typography>
           {user.email ? (
-            <Typography sx={{ mb: 1.5 }} color="text.secondary">
-              <h3>Email:</h3>
+            <Typography component="h3" sx={{ mb: 1.5 }} color="text.secondary">
+              Email:<br/>
               {user.email}
             </Typography>
           ) : null}
