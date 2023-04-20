@@ -10,9 +10,10 @@ import { useSelector } from "react-redux";
 import MembersList from "../components/MembersList";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from "@mui/icons-material/Delete";
 import { useNavigate } from "react-router-dom";
-
+import { useDispatch } from "react-redux";
+import { setGroupes as setAllGroupes } from "../store/reducers/groupe";
 
 function Groupe() {
   let { idGroupe } = useParams();
@@ -21,6 +22,7 @@ function Groupe() {
   const url = `${process.env.REACT_APP_YOUR_API_URL}/api/groups/${idGroupe}`;
   const currentUser = useSelector((state) => state.auth.user);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   function handleDelete() {
     if (!deleteConfirmation) {
@@ -29,8 +31,12 @@ function Groupe() {
     }
     (async () => {
       try {
-        const response = await axios.delete(url);
+		const token = localStorage.getItem("token");
+        const response = await axios.delete(url, {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        });
         console.log(response);
+        dispatch(setAllGroupes(null));
         navigate("/compte");
       } catch (error) {
         console.error(error);
@@ -75,34 +81,37 @@ function Groupe() {
         <ThreadsList groupeId={idGroupe} />
         <MembersList groupId={idGroupe} owner={groupe.owner} />
       </Box>
-	  <Box sx={{ display: "flex", justifyContent: "flex-start" }}>
-      <Button
-        variant="outlined"
-        color="error"
-        sx={{
-          mt: 2,
-          mb: 2,
-          textAlign: "center",
-        }}
-		startIcon={<DeleteIcon />}
-        onClick={() => handleDelete()}
-      >
-        {deleteConfirmation ? "Es-tu sur ?" : "Supprimer le groupe"}
-      </Button>
-      {deleteConfirmation ? (
-        <Button
-          variant="text"
-          sx={{
-            mt: 2,
-            mb: 2,
-            textAlign: "center",
-			ml : 2
-          }}
-          onClick={() => (setDeleteConfirmation(false))}
-        >
-			annuler
-		</Button>
-      ) : null}</Box>
+      {`/api/users/${currentUser.id}` === groupe.owner ? (
+        <Box sx={{ display: "flex", justifyContent: "flex-start" }}>
+          <Button
+            variant="outlined"
+            color="error"
+            sx={{
+              mt: 2,
+              mb: 2,
+              textAlign: "center",
+            }}
+            startIcon={<DeleteIcon />}
+            onClick={() => handleDelete()}
+          >
+            {deleteConfirmation ? "Es-tu sur ?" : "Supprimer le groupe"}
+          </Button>
+          {deleteConfirmation ? (
+            <Button
+              variant="text"
+              sx={{
+                mt: 2,
+                mb: 2,
+                textAlign: "center",
+                ml: 2,
+              }}
+              onClick={() => setDeleteConfirmation(false)}
+            >
+              annuler
+            </Button>
+          ) : null}
+        </Box>
+      ) : null}
     </Container>
   );
 }
