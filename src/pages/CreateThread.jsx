@@ -29,8 +29,9 @@ function CreateThread () {
                     'Content-Type': 'application/json',
                     "Authorization": `Bearer ${token}` }
             });
+            console.log(reponse);
             dispatch(setGroupesAll(null));
-            navigate(`/groupes/${idGroupe}`);
+            navigate(`/groupes/${idGroupe}/threads/${reponse.data.id}`);
             } catch (error) {
                 console.error(error);
             }

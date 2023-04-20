@@ -12,7 +12,6 @@ function RequestsList ({groupeId}) {
         try {
             let reponse = await axios.post(
                 `${urlPost}/${request.id}/accept`,
-                {},
                 {
                     headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
                 }
@@ -22,7 +21,6 @@ function RequestsList ({groupeId}) {
             console.error(error);
         }
     }
-    
     useEffect(() => {(async () => {
         try {
             let response = await axios.get(`${urlGet}/${groupeId}/requests`);
