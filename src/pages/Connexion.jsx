@@ -8,7 +8,7 @@ import { login } from '../store/reducers/auth';
 
 function Connexion() {
 	const url = `${process.env.REACT_APP_YOUR_API_URL}/auth`;
-	const urlInfos = `${process.env.REACT_APP_YOUR_API_URL}/api/users/1/info`;
+	const urlInfos = `${process.env.REACT_APP_YOUR_API_URL}/api/users/9/info`;
 	const urlGroupes = `${process.env.REACT_APP_YOUR_API_URL}/api/users/`;
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
