@@ -10,10 +10,12 @@ function RequestsList ({groupeId}) {
 
     async function acceptRequest(request) {
         try {
+            const token = localStorage.getItem("token");
             let reponse = await axios.post(
                 `${urlPost}/${request.id}/accept`,
+                {},
                 {
-                    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+                    headers: { Authorization: `Bearer ${token}` },
                 }
             );
             setRequests(requests.filter((request) => request.id !== request.id))
@@ -24,9 +26,10 @@ function RequestsList ({groupeId}) {
     useEffect(() => {(async () => {
         try {
             let response = await axios.get(`${urlGet}/${groupeId}/requests`);
+            console.log('requete',response.data["hydra:member"]);
             let requestsTmp = response.data["hydra:member"];
 
-            requestsTmp = requestsTmp.map((request) => request.this.status === 0)
+            requestsTmp = requestsTmp.filter((request) => request.status === 0)
             setRequests(requestsTmp);
         } catch (error) {
             console.error(error);
@@ -49,6 +52,8 @@ function RequestsList ({groupeId}) {
             </div>
         )
     }
+
+    console.log(requests);
 
     return (
         <div>

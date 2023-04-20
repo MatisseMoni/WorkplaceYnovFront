@@ -74,7 +74,7 @@ function Groupe() {
   return (
     <Container>
       <GroupCard groupe={groupe} />
-      {`/api/user/${currentUser.id}` === groupe.owner ? (
+      {`/api/users/${currentUser.id}` === groupe.owner ? (
         <RequestsList groupeId={idGroupe} />
       ) : null}
       <Box sx={{ display: "flex", justifyContent: "space-around", mt: 5 }}>
