@@ -17,7 +17,7 @@ function Compte() {
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
-  const url = `${process.env.REACT_APP_YOUR_API_URL}/api/users/9/info`;
+  const url = `${process.env.REACT_APP_YOUR_API_URL}/api/users/${process.env.REACT_APP_YOUR_API_ID_INFO}/info`;
 
   const urlDelete = `${process.env.REACT_APP_YOUR_API_URL}/api/users/`;
   const currentUser = useSelector((state) => state.auth.user);
