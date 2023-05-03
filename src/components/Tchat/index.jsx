@@ -83,15 +83,26 @@ function Tchat({ thread }) {
 				<List>
 					{messages.map((message) => (
 						<ListItem key={message.id}>
-							<ListItemText primary={message.content} />
-							<ListItemText
-								secondary={
-									`/api/users/${currentUser.id}` === message.owner
-										? 'Me'
-										: message.owner
-								}
-								align='right'
-							/>
+							<Grid
+								container
+								direction='column'>
+								<Grid item>
+									<Typography
+										variant='body1'
+										align='left'>
+										{message.owner === `/api/users/${currentUser.id}`
+											? 'Me'
+											: message.owner}
+									</Typography>
+								</Grid>
+								<Grid item>
+									<Typography
+										variant='body1'
+										align='left'>
+										{message.content}
+									</Typography>
+								</Grid>
+							</Grid>
 						</ListItem>
 					))}
 				</List>
