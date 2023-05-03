@@ -131,7 +131,12 @@ function Tchat({ thread }) {
 								fullWidth
 								type='submit'
 								variant='contained'
-								color='primary'>
+								sx={{
+								
+									backgroundColor: '#048b9a',
+									':hover': { background: '#048b9a' },
+								}}
+								>
 								Envoyer
 							</Button>
 						</Grid>

@@ -55,7 +55,10 @@ function ResponsiveAppBar() {
 		setUser(userLog);
 	}, [isLoggedIn, userLog]);
 
-	const links = [];
+	const links = [
+		{ name: 'Créer un groupe', path: '/createGroupe' },
+		{ name: 'Mes groupes', path: '/compte' }
+	];
 
 	const linksisnotlogged = [
 		{ name: 'Connexion', path: '/connexion' },
@@ -96,8 +99,8 @@ function ResponsiveAppBar() {
 							aria-controls='menu-appbar'
 							aria-haspopup='true'
 							onClick={handleOpenNavMenu}
-							color='black'>
-							<MenuIcon />
+							color='white'>
+							<MenuIcon  background='white'/>
 						</IconButton>
 						<Menu
 							id='menu-appbar'
@@ -152,7 +155,7 @@ function ResponsiveAppBar() {
 								flexGrow: 1,
 								fontWeight: 700,
 								letterSpacing: '.3rem',
-								color: 'black',
+								color: 'white',
 								textDecoration: 'none',
 							}}>
 							Ynov Workplace
@@ -165,7 +168,7 @@ function ResponsiveAppBar() {
 										<Button
 											key={index}
 											onClick={handleCloseNavMenu}
-											sx={{ my: 2, color: 'black', display: 'block' }}
+											sx={{ my: 2, mr:2,  color: 'white', borderColor: 'white', display: 'block', ":hover": { borderColor: 'white' }  }}
                                             underline="none">
 											{link.name}
 										</Button>
