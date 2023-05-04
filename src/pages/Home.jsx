@@ -20,6 +20,10 @@ function Home() {
     <Container>
       <Typography variant="h3" sx={{textAlign: "center", marginBottom: 3}}>Liste des groupes</Typography>
       <GroupesList />
+
+      <p>
+        It's <time dateTime={response}>{response}</time>
+      </p>
     </Container>
   );
 }
