@@ -30,8 +30,8 @@ io.on("connection", (socket) => {
     socket.on('user login', (props) => {
         const { username } = props;
         users.push(username);
-        console.log(`${users.toString()} logged in at ${new Date()}`);
-        io.emit('new login', `${users.toString()} at ${new Date()}`);
+        console.log(users);
+        io.emit("new login", {users});
         clearInterval(interval);
     });
 

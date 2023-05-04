@@ -17,11 +17,12 @@ import CreateGroupe from './pages/CreateGroupe';
 import CreateThread from './pages/CreateThread';
 import Error404 from './pages/Error404';
 import Thread from './pages/Thread';
+import { setUsersLogged } from './store/reducers/auth';
+import socketIOClient from 'socket.io-client';
+
 
 
 const Layout = () => {
-    const loading = useSelector(state => state.loading.isLoading);
-
     return (
         <>
             <MenuHeader />
@@ -30,18 +31,18 @@ const Layout = () => {
     );
 };
 
-const routes = () => 
+const routes = () =>
     [
         {
             element: <Layout />,
             children: [
                 {
                     path: "/",
-                    element:(PrivateRoute(<Home />)),
+                    element: (PrivateRoute(<Home />)),
                 },
                 {
                     path: "/userList",
-                    element:(PrivateRoute(<UserList />)),
+                    element: (PrivateRoute(<UserList />)),
                 },
                 {
                     path: "/userList/:idUser",
@@ -77,7 +78,7 @@ const routes = () =>
                 },
                 {
                     path: "*",
-                    element: <Error404/>,
+                    element: <Error404 />,
                 }
             ]
         }
