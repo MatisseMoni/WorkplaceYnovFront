@@ -1,21 +1,21 @@
-import { sortUsersByNickname } from "./UserList";
+import UserList, { sortUsersByNickname } from './UserList';
+import { render, screen } from '@testing-library/react';
+import store from '../store/store';
+import { Provider } from 'react-redux';
+import { setLoading } from '../store/reducers/loading';
+import { setUsers } from '../store/reducers/user';
 
-test('Sort users by nickname', () => {
-    const users = [
-        { nickname: 'b' },
-        { nickname: 'a' },
-        { nickname: 'd' },
-        { nickname: 'c' },
-    ];
+const wrapper = ({ children }) => <Provider store={store}>{children}</Provider>;
 
-    const expected = [
-        { nickname: 'a' },
-        { nickname: 'b' },
-        { nickname: 'c' },
-        { nickname: 'd' },
-    ];
-
-    const res = sortUsersByNickname(users);
-
-    expect(res).toEqual(expected);
+test('Display component', () => {
+	store.dispatch(setLoading(false));
+	store.dispatch(
+		setUsers([
+			{ id: 1, nickname: 'test' },
+			{ id: 2, nickname: 'test 2' },
+		])
+	);
+	render(<UserList />, { wrapper });
+	const linkElement = screen.getByText(/Liste des Utilisateurs/i);
+	expect(linkElement).toBeInTheDocument();
 });

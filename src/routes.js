@@ -42,7 +42,7 @@ const routes = () =>
                 },
                 {
                     path: "/userList",
-                    element: (PrivateRoute(<UserList />)),
+                    element: (<UserList />),
                 },
                 {
                     path: "/userList/:idUser",

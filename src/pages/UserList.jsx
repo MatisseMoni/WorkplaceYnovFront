@@ -58,6 +58,7 @@ function UserList() {
             '&>*': { marginBottom: 2 },
         }
         }>
+            <h1>Liste des Utilisateurs</h1>
             {users.map((user, index) => {
                 return (
                     <UserCard user={user} redirect={true} />
