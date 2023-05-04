@@ -28,15 +28,23 @@ io.on("connection", (socket) => {
     interval = setInterval(() => getApiAndEmit(socket), 1000);
 
     socket.on('user login', (props) => {
-        const { username } = props;
-        users.push(username);
-        console.log(users);
-        io.emit("new login", {users});
+        const { user } = props;
+        if (users.find(u => u.id === user.id)) {
+            console.log("User already logged");
+            return;
+        }
+        users.push(user);
+        nicknames = users.map(user => user.nickname);
+        console.log(nicknames);
+        io.emit("new login", {nicknames});
         clearInterval(interval);
     });
 
-    socket.on("disconnect", () => {
-        console.log("Client disconnected");
+    socket.on("user logout", ({userId}) => {
+        users = users.filter(user => user.id !== userId);
+        nicknames = users.map(user => user.nickname);
+        console.log(nicknames);
+        io.emit("new login", {nicknames});
         clearInterval(interval);
     });
 });

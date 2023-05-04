@@ -44,8 +44,8 @@ Promise.all([retriveLoggedUsers()]).finally(() => {
 
     const ENDPOINT = "http://127.0.0.1:4001";
     const socket = socketIOClient(ENDPOINT);
-    socket.on("new login", ({ users }) => {
-        store.dispatch(setUsersLogged(users));
+    socket.on("new login", ({ nicknames }) => {
+        store.dispatch(setUsersLogged(nicknames));
     });
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
