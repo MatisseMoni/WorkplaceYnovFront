@@ -55,7 +55,7 @@ function Connexion() {
 
 				data.ownedGroups = reponseGroupes.data.ownedGroups;
 				data.subscribedGroups = reponseGroupes.data.subscribedGroups;
-
+				console.log(data);
 				dispatch(login(data));
 
 				navigate('/compte');

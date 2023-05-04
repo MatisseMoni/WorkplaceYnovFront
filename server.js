@@ -10,13 +10,15 @@ app.use(index);
 
 const server = http.createServer(app);
 const io = socketIO(server, {
-    cors:{
-        origin:'*',
+    cors: {
+        origin: '*',
         methods: ["GET", "POST"]
     }
 });
 
 let interval;
+
+let users = [];
 
 io.on("connection", (socket) => {
     console.log("New client connected");
@@ -24,6 +26,15 @@ io.on("connection", (socket) => {
         clearInterval(interval);
     }
     interval = setInterval(() => getApiAndEmit(socket), 1000);
+
+    socket.on('user login', (props) => {
+        const { username } = props;
+        users.push(username);
+        console.log(`${users.toString()} logged in at ${new Date()}`);
+        io.emit('new login', `${users.toString()} at ${new Date()}`);
+        clearInterval(interval);
+    });
+
     socket.on("disconnect", () => {
         console.log("Client disconnected");
         clearInterval(interval);
