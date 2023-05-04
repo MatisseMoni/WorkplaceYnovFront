@@ -8,6 +8,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setUsers as setUsersReducer } from '../store/reducers/user';
 import Loader from '../components/Loader';
 
+
+export const sortUsersByNickname = (users) => {
+    let newUsers = [...users];
+    newUsers.sort((a, b) => a.nickname.localeCompare(b.nickname));
+    return newUsers;
+}
+
 function UserList() {
     // Fetch users from API
     const url = `${process.env.REACT_APP_YOUR_API_URL}/api/users`;
