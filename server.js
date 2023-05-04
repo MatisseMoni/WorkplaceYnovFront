@@ -29,11 +29,9 @@ io.on("connection", (socket) => {
 
     socket.on('user login', (props) => {
         const { user } = props;
-        if (users.find(u => u.id === user.id)) {
-            console.log("User already logged");
-            return;
+        if (!users.find(u => u.id === user.id)) {
+            users.push(user);
         }
-        users.push(user);
         nicknames = users.map(user => user.nickname);
         console.log(nicknames);
         io.emit("new login", {nicknames});
