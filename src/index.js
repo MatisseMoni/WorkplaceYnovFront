@@ -42,11 +42,11 @@ Promise.all([retriveLoggedUsers()]).finally(() => {
   store.dispatch(setLoading(false));
 });
 
-    const ENDPOINT = "http://127.0.0.1:4001";
-    const socket = socketIOClient(ENDPOINT);
-    socket.on("new login", ({ nicknames }) => {
-        store.dispatch(setUsersLogged(nicknames));
-    });
+const ENDPOINT = "http://127.0.0.1:4001";
+const socket = socketIOClient(ENDPOINT);
+socket.on("new login", ({ nicknames }) => {
+  store.dispatch(setUsersLogged(nicknames));
+});
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

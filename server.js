@@ -33,7 +33,6 @@ io.on("connection", (socket) => {
             users.push(user);
         }
         nicknames = users.map(user => user.nickname);
-        console.log(nicknames);
         io.emit("new login", {nicknames});
         clearInterval(interval);
     });
@@ -41,7 +40,6 @@ io.on("connection", (socket) => {
     socket.on("user logout", ({userId}) => {
         users = users.filter(user => user.id !== userId);
         nicknames = users.map(user => user.nickname);
-        console.log(nicknames);
         io.emit("new login", {nicknames});
         clearInterval(interval);
     });
