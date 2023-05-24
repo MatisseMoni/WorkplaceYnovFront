@@ -43,6 +43,12 @@ io.on("connection", (socket) => {
         io.emit("new login", {nicknames});
         clearInterval(interval);
     });
+
+    socket.on("send message", ({message, thread}) => {
+        console.log(message);
+        io.emit("new message", {message, thread});
+        clearInterval(interval);
+    })
 });
 
 const getApiAndEmit = socket => {

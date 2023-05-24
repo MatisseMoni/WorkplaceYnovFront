@@ -6,7 +6,6 @@ const messageSlice = createSlice({
     initialState: { threads: {} },
     reducers: {
         initMessages: (state, action) => {
-        
             if (state.threads[action.payload.thread]) {
                 state.threads[action.payload.thread] = action.payload.messages;
             }
@@ -14,12 +13,13 @@ const messageSlice = createSlice({
             state.threads[action.payload.thread] = action.payload.messages;
         },
         sendMessage: (state, action) => {
-            console.log("sendMessage", action.payload);
-            console.log("state.threads", state.threads[action.payload.thread]);
+            const ENDPOINT = "http://localhost:4001";
+            const socket = socketIOClient(ENDPOINT);
             if (!state.threads[action.payload.thread]) {
                 state.threads[action.payload.thread] = [];
             }
             state.threads[action.payload.thread].push(action.payload.message);
+            socket.emit("send message", action.payload);
         },
         newMessage: (state, action) => {
             if (!state.threads[action.payload.thread]) {
@@ -27,6 +27,7 @@ const messageSlice = createSlice({
             }
             state.threads[action.payload.thread].push(action.payload);
         },
+
     }
 });
 

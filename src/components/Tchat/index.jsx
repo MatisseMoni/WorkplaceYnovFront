@@ -3,9 +3,7 @@ import axios from 'axios';
 import Loader from '../Loader';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { initMessages, sendMessage } from '../../store/reducers/message';
-
-
+import { initMessages, newMessage, sendMessage } from '../../store/reducers/message';
 import {
 	Box,
 	Container,
@@ -17,7 +15,7 @@ import {
 	ListItemText,
 	TextField,
 } from '@mui/material';
-import store from '../../store/store';
+import socketIOClient from "socket.io-client";
 
 function Tchat({ thread }) {
 	const id = thread['@id'].split('/')[3];
@@ -25,6 +23,8 @@ function Tchat({ thread }) {
 	const urlSend = `${process.env.REACT_APP_YOUR_API_URL}/api/messages`;
 	const currentUser = useSelector((state) => state.auth.user);
 	const messagesStore = useSelector((state) => state.message.threads);
+	const ENDPOINT = 'http://localhost:4001/';
+	const socket = socketIOClient(ENDPOINT);
 
 	const dispatch = useDispatch();
 
@@ -34,6 +34,9 @@ function Tchat({ thread }) {
 
 	function handleSubmit(event) {
 		event.preventDefault();
+		if (message === '') {
+			return;
+		}
 		(async () => {
 			try {
 				const token = localStorage.getItem('token');
@@ -47,9 +50,9 @@ function Tchat({ thread }) {
 						headers: { Authorization: `Bearer ${token}` },
 					}
 				);
-				dispatch(sendMessage({thread: id, message: response.data}));
-				setMessages(messagesStore[id]);
-
+				dispatch(sendMessage({ thread: id, message: response.data }));
+				console.log(messages);
+				setMessages([...messages, response.data]);
 				setMessage('');
 			} catch (error) {
 				console.error(error);
@@ -58,27 +61,40 @@ function Tchat({ thread }) {
 	}
 
 	useEffect(() => {
-		console.log(messagesStore);
 		if (messagesStore[id]) {
 			console.log('store');
 			setMessages(messagesStore[id]);
 			setLoading(false);
-			return;
 		}
-		console.log('api');
-		(async () => {
-			try {
-				const token = localStorage.getItem('token');
-				const response = await axios.get(url, {
-					headers: { Authorization: `Bearer ${token}` },
-				});
-				dispatch(initMessages({thread: id, messages: response.data['hydra:member']}));
-				setMessages(response.data['hydra:member']);
-				setLoading(false);
-			} catch (error) {
-				console.error(error);
-			}
-		})();
+		else {
+			console.log('api');
+			(async () => {
+				try {
+					const token = localStorage.getItem('token');
+					const response = await axios.get(url, {
+						headers: { Authorization: `Bearer ${token}` },
+					});
+					dispatch(initMessages({ thread: id, messages: response.data['hydra:member'] }));
+					setMessages(response.data['hydra:member']);
+					setLoading(false);
+				} catch (error) {
+					console.error(error);
+				}
+			})();
+		}
+
+		if (!socket.hasListeners("new message")) {
+			socket.on("new message", (data) => {
+				if (data.message.owner !== `/api/users/${currentUser.id}`) {
+					if (messagesStore[data.thread]) {
+						dispatch(newMessage({ thread: data.thread, message: data.message }));
+					}
+					if (data.thread == id) {
+						setMessages((messages) => [...messages, data.message]);
+					}
+				}
+			})
+		};
 	}, [id]);
 
 	if (loading) {
@@ -151,11 +167,11 @@ function Tchat({ thread }) {
 								type='submit'
 								variant='contained'
 								sx={{
-								
+
 									backgroundColor: '#048b9a',
 									':hover': { background: '#048b9a' },
 								}}
-								>
+							>
 								Envoyer
 							</Button>
 						</Grid>
