@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect,useContext } from 'react';
 import { Outlet } from 'react-router-dom';
 import MenuHeader from './components/MenuHeader';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { login } from './store/reducers/auth';
 import GuestRoute from './routes/GuestRoute';
@@ -17,12 +17,30 @@ import CreateGroupe from './pages/CreateGroupe';
 import CreateThread from './pages/CreateThread';
 import Error404 from './pages/Error404';
 import Thread from './pages/Thread';
+import { newMessage } from './store/reducers/message';
 import { setUsersLogged } from './store/reducers/auth';
-import socketIOClient from 'socket.io-client';
+import socketIOClient from "socket.io-client";
 
-
-
+const ENDPOINT = "http://127.0.0.1:4001";
+const socket = socketIOClient(ENDPOINT);
+''
 const Layout = () => {
+    const dispatch = useDispatch();
+    useEffect(() => {
+        socket.on('new message', (data) => {
+            dispatch(newMessage({ thread: data.thread, message: data.message }));
+        });
+
+        socket.on("new login", (data) => {
+            dispatch(setUsersLogged(data));
+        });
+
+        return () => {
+            socket.off('new message');
+            socket.off('new login');
+        };
+    }, [socket, dispatch]);
+
     return (
         <>
             <MenuHeader />

@@ -25,7 +25,7 @@ const messageSlice = createSlice({
             if (!state.threads[action.payload.thread]) {
                 state.threads[action.payload.thread] = [];
             }
-            state.threads[action.payload.thread].push(action.payload);
+            state.threads[action.payload.thread].push(action.payload.message);
         },
 
     }

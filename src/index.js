@@ -11,8 +11,7 @@ import App from "./App";
 import { setLoading } from "./store/reducers/loading";
 import axios from "axios";
 import { login } from "./store/reducers/auth";
-import socketIOClient from "socket.io-client";
-import { setUsersLogged } from "./store/reducers/auth";
+
 
 async function retriveLoggedUsers() {
   const url = `${process.env.REACT_APP_YOUR_API_URL}/api/users/${process.env.REACT_APP_YOUR_API_ID_INFO}/info`;
@@ -40,12 +39,6 @@ async function retriveLoggedUsers() {
 
 Promise.all([retriveLoggedUsers()]).finally(() => {
   store.dispatch(setLoading(false));
-});
-
-const ENDPOINT = "http://127.0.0.1:4001";
-const socket = socketIOClient(ENDPOINT);
-socket.on("new login", ({ nicknames }) => {
-  store.dispatch(setUsersLogged(nicknames));
 });
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

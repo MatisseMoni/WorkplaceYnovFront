@@ -3,7 +3,7 @@ import axios from 'axios';
 import Loader from '../Loader';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { initMessages, newMessage, sendMessage } from '../../store/reducers/message';
+import { initMessages, sendMessage } from '../../store/reducers/message';
 import {
 	Box,
 	Container,
@@ -12,23 +12,19 @@ import {
 	Button,
 	List,
 	ListItem,
-	ListItemText,
 	TextField,
 } from '@mui/material';
-import socketIOClient from "socket.io-client";
 
 function Tchat({ thread }) {
 	const id = thread['@id'].split('/')[3];
 	const url = `${process.env.REACT_APP_YOUR_API_URL}/api/threads/${id}/messages`;
 	const urlSend = `${process.env.REACT_APP_YOUR_API_URL}/api/messages`;
 	const currentUser = useSelector((state) => state.auth.user);
-	const messagesStore = useSelector((state) => state.message.threads);
-	const ENDPOINT = 'http://localhost:4001/';
-	const socket = socketIOClient(ENDPOINT);
+	const messagesStore = useSelector((state) => state.message.threads[id] || []);
 
 	const dispatch = useDispatch();
 
-	const [messages, setMessages] = useState([]);
+	const [messages, setMessages] = useState([]); // messagesStore[id
 	const [message, setMessage] = useState('');
 	const [loading, setLoading] = useState(true);
 
@@ -51,8 +47,6 @@ function Tchat({ thread }) {
 					}
 				);
 				dispatch(sendMessage({ thread: id, message: response.data }));
-				console.log(messages);
-				setMessages([...messages, response.data]);
 				setMessage('');
 			} catch (error) {
 				console.error(error);
@@ -61,13 +55,7 @@ function Tchat({ thread }) {
 	}
 
 	useEffect(() => {
-		if (messagesStore[id]) {
-			console.log('store');
-			setMessages(messagesStore[id]);
-			setLoading(false);
-		}
-		else {
-			console.log('api');
+		if (messagesStore.length === 0) {
 			(async () => {
 				try {
 					const token = localStorage.getItem('token');
@@ -75,27 +63,18 @@ function Tchat({ thread }) {
 						headers: { Authorization: `Bearer ${token}` },
 					});
 					dispatch(initMessages({ thread: id, messages: response.data['hydra:member'] }));
-					setMessages(response.data['hydra:member']);
 					setLoading(false);
 				} catch (error) {
 					console.error(error);
 				}
 			})();
 		}
-
-		if (!socket.hasListeners("new message")) {
-			socket.on("new message", (data) => {
-				if (data.message.owner !== `/api/users/${currentUser.id}`) {
-					if (messagesStore[data.thread]) {
-						dispatch(newMessage({ thread: data.thread, message: data.message }));
-					}
-					if (data.thread == id) {
-						setMessages((messages) => [...messages, data.message]);
-					}
-				}
-			})
-		};
-	}, [id]);
+		else {
+			setLoading(false);
+		}
+		console.log("messagesStore", messagesStore);
+		setMessages(messagesStore);
+	}, [id, messagesStore.length, dispatch]);
 
 	if (loading) {
 		return <Loader />;
@@ -119,6 +98,7 @@ function Tchat({ thread }) {
 					{messages.map((message) => (
 						<ListItem key={message.id}>
 							<Grid
+								key={message.id}
 								container
 								direction='column'>
 								<Grid item>

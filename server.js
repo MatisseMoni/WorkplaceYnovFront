@@ -32,15 +32,19 @@ io.on("connection", (socket) => {
         if (!users.find(u => u.id === user.id)) {
             users.push(user);
         }
-        nicknames = users.map(user => user.nickname);
-        io.emit("new login", {nicknames});
+        userInfos = users.map(user => ({nickname: user.nickname, id: user.id}));
+        console.log(userInfos);
+
+        io.emit("new login", userInfos);
         clearInterval(interval);
     });
 
     socket.on("user logout", ({userId}) => {
         users = users.filter(user => user.id !== userId);
-        nicknames = users.map(user => user.nickname);
-        io.emit("new login", {nicknames});
+        userInfos = users.map(user => ({nickname: user.nickname, id: user.id}));
+        console.log(userInfos);
+
+        io.emit("new login", userInfos);
         clearInterval(interval);
     });
 
