@@ -5,7 +5,7 @@ import {  Typography, Box, TextField, Button } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import CommentIcon from '@mui/icons-material/Comment';
 import { useDispatch } from 'react-redux';
-import {setGroupes as setGroupesAll} from "../store/reducers/groupe";
+import {sendThread} from "../store/reducers/thread";
 
 function CreateThread () {
     let { idGroupe } = useParams();
@@ -29,8 +29,7 @@ function CreateThread () {
                     'Content-Type': 'application/json',
                     "Authorization": `Bearer ${token}` }
             });
-            console.log(reponse);
-            dispatch(setGroupesAll(null));
+            dispatch(sendThread({group:idGroupe, thread:reponse.data}));
             navigate(`/groupes/${idGroupe}/threads/${reponse.data.id}`);
             } catch (error) {
                 console.error(error);

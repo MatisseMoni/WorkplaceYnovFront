@@ -8,53 +8,78 @@ import Box from '@mui/material/Box';
 import AddIcon from '@mui/icons-material/Add';
 import Button from '@mui/material/Button';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import { useDispatch, useSelector } from 'react-redux';
+import { initThreads } from '../../store/reducers/thread';
+import Loader from '../Loader';
 
 function ThreadsList({ groupeId }) {
-	const [threads, setThreads] = useState([]);
-	const url = `${process.env.REACT_APP_YOUR_API_URL}/api/search`;
+
+	const dispatch = useDispatch();
+	const threads = useSelector((state) => state.thread.groups);
+
+	const url = `/api/search`;
+
+	const [error, setError] = useState(null);
 
 	useEffect(() => {
 		(async () => {
+			if (!groupeId) return;
+			if (threads && threads.length > 0) return;
+
 			const token = localStorage.getItem('token');
-			const response = await axios.get(url, {
-				headers: { Authorization: `Bearer ${token}` },
-			});
-			const threadsTmp = response.data['hydra:member'].filter((thread) => {
-				return thread.relatedGroup === `/api/groups/${groupeId}`;
-			});
-			console.log(response, threadsTmp);
-			setThreads(threadsTmp);
+			let nextUrl = url;
+			let threadsTmp = [];
+			while (nextUrl) {
+				try {
+					const response = await axios.get(`${process.env.REACT_APP_YOUR_API_URL}${nextUrl}`, {
+						headers: { Authorization: `Bearer ${token}` },
+					});
+					threadsTmp = [...threadsTmp, ...response.data["hydra:member"]];
+					nextUrl = response.data['hydra:view']['hydra:next'];
+				} catch (error) {
+					setError(error);
+					break;
+				}
+			}
+			dispatch(initThreads(threadsTmp));
 		})();
-	}, [groupeId]);
+	}, [groupeId, threads]);
+
+	if (!threads || threads.length === 0) {
+		return <Loader />;
+	}
+
+	const threadFiltered =
+		threads[groupeId] && threads[groupeId].length > 0 ? threads[groupeId] : [];
 
 	return (
 		<Card sx={{ width: '300px' }}>
 			<Container>
-				<Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+				<Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
 					<Typography
 						variant='h6'
 						component='h1'
 						textAlign='center'
-						sx={{mt: 2}}>
+						sx={{ mt: 2 }}>
 						Threads
 					</Typography>
 					<Link to={`/groupes/${groupeId}/createThread`}>
-						<Button variant='contained' size='small' endIcon={<AddIcon />} sx={{ background: '#048b9a',  ":hover": { background: '#048b9a' } }}>
+						<Button variant='contained' size='small' endIcon={<AddIcon />} sx={{ background: '#048b9a', ":hover": { background: '#048b9a' } }}>
 							Ajouter
 						</Button>
 					</Link>
 				</Box>
 
 				<ul>
-					{threads.map((thread) => {
+					{threadFiltered.map((thread) => {
 						const id = thread['@id'].split('/')[3];
 
 						return (
-							<li>
+							<li key={thread.id}>
 								<h3>{thread.title}</h3>
 								<p>{thread.slug}</p>
 								<Link to={`/groupes/${groupeId}/threads/${id}`}>
-									<Button size='small' startIcon={<VisibilityIcon />} sx={{ color: '#048b9a'}}>
+									<Button size='small' startIcon={<VisibilityIcon />} sx={{ color: '#048b9a' }}>
 										Voir le thread
 									</Button>
 								</Link>

@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { Outlet } from 'react-router-dom';
 import MenuHeader from './components/MenuHeader';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector, useDispatch } from "react-redux";
 import axios from 'axios';
 import { login } from './store/reducers/auth';
 import GuestRoute from './routes/GuestRoute';
@@ -17,12 +17,47 @@ import CreateGroupe from './pages/CreateGroupe';
 import CreateThread from './pages/CreateThread';
 import Error404 from './pages/Error404';
 import Thread from './pages/Thread';
+import { newMessage } from './store/reducers/message';
+import { newThread } from './store/reducers/thread';
 import { setUsersLogged } from './store/reducers/auth';
-import socketIOClient from 'socket.io-client';
-
-
+import { newGroupe, deleteGroupe } from './store/reducers/groupe';
+import socket from "./socket";
 
 const Layout = () => {
+    const dispatch = useDispatch();
+    const currentUser = useSelector((state) => state.auth.user);
+
+    useEffect(() => {
+        socket.on("new group", (data) => {
+            dispatch(newGroupe({ groupe: data, user: currentUser }));
+        });
+
+        socket.on('new thread', (data) => {
+            dispatch(newThread({ group: data.group, thread: data.thread }));
+        });
+
+        socket.on('new message', (data) => {
+            dispatch(newMessage({ thread: data.thread, message: data.message }));
+        });
+
+        socket.on("new login", (data) => {
+            dispatch(setUsersLogged(data));
+        });
+
+        socket.on("delete group", (data) => {
+            console.log('router', data);
+            dispatch(deleteGroupe(data));
+        });
+
+        return () => {
+            socket.off('new message');
+            socket.off('new login');
+            socket.off('new group');
+            socket.off('new thread');
+            socket.off('delete group');
+        };
+    }, [socket, dispatch]);
+
     return (
         <>
             <MenuHeader />

@@ -33,7 +33,7 @@ function GroupCard({ groupe, isGrid = false }) {
 		<>
 			<Card
 				variant='outlined'
-				sx={{ height: '100%', display: 'flex', justifyContent: 'space-around', flexDirection:'column'}}>
+				sx={{ height: '100%', display: 'flex', justifyContent: 'space-around', flexDirection: 'column' }}>
 				<CardContent>
 					<Typography
 						variant='h6'
@@ -49,34 +49,34 @@ function GroupCard({ groupe, isGrid = false }) {
 					</Typography>
 					<Divider variant='middle' />
 				</CardContent>
-        <CardActions
-						sx={{ display: 'flex', justifyContent: 'end', mt: '10px' }}>
-						{isGrid ? (
-							displayLink ? (
-								<Button
-									variant='contained'
-                  size='small'
-									sx={{ backgroundColor: '#048b9a', ":hover": { background: '#048b9a' } }}
-									endIcon={<VisibilityIcon />}>
-									<Link
-										to={`/groupes/${id}`}
-										style={{ textDecoration: 'none', color:'white', ":hover": { backgroundColor: '#048b9a', color:'white' }}}
-										color=''>
-										Voir le groupe
-									</Link>
-								</Button>
-							) : (
-								<Button
-									onClick={requestAccess}
-									variant='contained'
-                  size='small'
-									sx={{ backgroundColor: '#048b9a', color:'white', ":hover": { backgroundColor: '#048b9a', color:'white' } }}
-									endIcon={<SendIcon />}>
-									Demander l'accès
-								</Button>
-							)
-						) : null}
-					</CardActions>
+				<CardActions
+					sx={{ display: 'flex', justifyContent: 'end', mt: '10px' }}>
+					{isGrid ? (
+						displayLink ? (
+							<Button
+								variant='contained'
+								size='small'
+								sx={{ backgroundColor: '#048b9a', ":hover": { background: '#048b9a' } }}
+								endIcon={<VisibilityIcon />}>
+								<Link
+									to={`/groupes/${id}`}
+									style={{ textDecoration: 'none', color: 'white', ":hover": { backgroundColor: '#048b9a', color: 'white' } }}
+									color=''>
+									Voir le groupe
+								</Link>
+							</Button>
+						) : (
+							<Button
+								onClick={requestAccess}
+								variant='contained'
+								size='small'
+								sx={{ backgroundColor: '#048b9a', color: 'white', ":hover": { backgroundColor: '#048b9a', color: 'white' } }}
+								endIcon={<SendIcon />}>
+								Demander l'accès
+							</Button>
+						)
+					) : null}
+				</CardActions>
 			</Card>
 		</>
 	);

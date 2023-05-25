@@ -13,7 +13,7 @@ import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setGroupes as setAllGroupes } from "../store/reducers/groupe";
+import { removeGroupe } from "../store/reducers/groupe";
 
 function Groupe() {
   let { idGroupe } = useParams();
@@ -31,12 +31,12 @@ function Groupe() {
     }
     (async () => {
       try {
-		const token = localStorage.getItem("token");
+        const token = localStorage.getItem("token");
         const response = await axios.delete(url, {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+          headers: { Authorization: `Bearer ${token}` },
         });
-        console.log(response);
-        dispatch(setAllGroupes(null));
+        console.log("delete", idGroupe);
+        dispatch(removeGroupe(idGroupe));
         navigate("/compte");
       } catch (error) {
         console.error(error);

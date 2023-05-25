@@ -5,7 +5,7 @@ import { Typography, Box, TextField, Button } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import { useDispatch } from 'react-redux';
-import { setGroupes } from '../store/reducers/groupe';
+import { sendGroupe } from '../store/reducers/groupe';
 
 function CreateGroupe() {
 	const [name, setName] = useState('');
@@ -30,10 +30,7 @@ function CreateGroupe() {
 						headers: { Authorization: `Bearer ${token}` },
 					}
 				);
-				console.log(reponseCreate);
-				if (reponseCreate.status !== 201) {
-					throw new Error('Erreur lors de la création du groupe');
-				}
+
 				const reponseRequest = await axios.post(
 					urlGroupRequest,
 					{
@@ -43,10 +40,7 @@ function CreateGroupe() {
 						headers: { Authorization: `Bearer ${token}` },
 					}
 				);
-				console.log(reponseRequest);
-				if (reponseRequest.status !== 201) {
-					throw new Error('Erreur lors de la création de la demande');
-				}
+
 				const reponseAccept = await axios.post(
 					`${urlGroupRequest}/${reponseRequest.data.id}/accept`,
 					{},
@@ -56,8 +50,9 @@ function CreateGroupe() {
 						},
 					}
 				);
-				console.log(reponseAccept);
-				dispatch(setGroupes(null));
+
+				let groupe = reponseCreate.data;
+				dispatch(sendGroupe(groupe));
 				navigate(`/groupes/${reponseCreate.data.id}`);
 			} catch (error) {
 				console.error(error);

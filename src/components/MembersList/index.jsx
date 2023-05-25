@@ -1,13 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import Card from '@mui/material/Card';
 import Container from '@mui/material/Container';
 import { Typography } from '@mui/material';
+import { useSelector } from 'react-redux';
+import Brightness1TwoToneIcon from '@mui/icons-material/Brightness1TwoTone';
+import Brightness1Icon from '@mui/icons-material/Brightness1';
 
 function MembersList({ groupId, owner }) {
 	const [members, setMembers] = useState([]);
-	const [error, setError] = useState(null);
+	const usersLogged = useSelector((state) => state.auth.usersLogged);
+
 	const url = `${process.env.REACT_APP_YOUR_API_URL}/api/groups`;
+
 	useEffect(() => {
 		(async () => {
 			try {
@@ -15,31 +20,29 @@ function MembersList({ groupId, owner }) {
 				const membersTmp = response.data['hydra:member'];
 				membersTmp.forEach((member) => {
 					member.isOwner = member['@id'] === owner;
+					member.isLogged = usersLogged.some((dataElement) => dataElement.id === member.id);;
 				});
-				console.log(membersTmp);
 				setMembers(membersTmp);
 			} catch (error) {
 				console.error(error);
-				setError(error);
 			}
 		})();
-	}, []);
+	}, [usersLogged]);
 
 	return (
 		<Card sx={{ width: '300px' }}>
 			<Container>
-				<Typography variant='h6' sx={{mt: 2}}>Membres</Typography>
+				<Typography variant='h6' sx={{ mt: 2 }}>Membres</Typography>
 				{members.length > 0 ? (
 					<ul>
 						{members.map((member) => (
 							<li key={member.id}>
-								<Typography variant='body1'>{member.nickname} </Typography>
-								<Typography variant='body1'>{member.isOwner ? <span>(admin)</span> : null}</Typography>
+								<Typography variant='body1'>{member.nickname} {member.isOwner ? <span>(admin)</span> : null} {member.isLogged ? <Brightness1Icon fontSize="small" color="success"/> :  <Brightness1TwoToneIcon fontSize="small" color="disabled" />}</Typography>
 							</li>
 						))}
 					</ul>
 				) : (
-					<p>Aucun membre</p>
+					<Typography variant='body1'>Aucun membre</Typography>
 				)}
 			</Container>
 		</Card>

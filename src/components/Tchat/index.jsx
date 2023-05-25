@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Loader from '../Loader';
 import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { initMessages, sendMessage } from '../../store/reducers/message';
 import {
 	Box,
 	Container,
@@ -10,7 +12,6 @@ import {
 	Button,
 	List,
 	ListItem,
-	ListItemText,
 	TextField,
 } from '@mui/material';
 
@@ -19,13 +20,19 @@ function Tchat({ thread }) {
 	const url = `${process.env.REACT_APP_YOUR_API_URL}/api/threads/${id}/messages`;
 	const urlSend = `${process.env.REACT_APP_YOUR_API_URL}/api/messages`;
 	const currentUser = useSelector((state) => state.auth.user);
+	const messagesStore = useSelector((state) => state.message.threads[id] || []);
 
-	const [messages, setMessages] = useState([]);
+	const dispatch = useDispatch();
+
+	const [messages, setMessages] = useState([]); // messagesStore[id
 	const [message, setMessage] = useState('');
 	const [loading, setLoading] = useState(true);
 
 	function handleSubmit(event) {
 		event.preventDefault();
+		if (message === '') {
+			return;
+		}
 		(async () => {
 			try {
 				const token = localStorage.getItem('token');
@@ -39,7 +46,7 @@ function Tchat({ thread }) {
 						headers: { Authorization: `Bearer ${token}` },
 					}
 				);
-				setMessages([...messages, response.data]);
+				dispatch(sendMessage({ thread: id, message: response.data }));
 				setMessage('');
 			} catch (error) {
 				console.error(error);
@@ -48,19 +55,26 @@ function Tchat({ thread }) {
 	}
 
 	useEffect(() => {
-		(async () => {
-			try {
-				const token = localStorage.getItem('token');
-				const response = await axios.get(url, {
-					headers: { Authorization: `Bearer ${token}` },
-				});
-				setMessages(response.data['hydra:member']);
-				setLoading(false);
-			} catch (error) {
-				console.error(error);
-			}
-		})();
-	}, [url]);
+		if (messagesStore.length === 0) {
+			(async () => {
+				try {
+					const token = localStorage.getItem('token');
+					const response = await axios.get(url, {
+						headers: { Authorization: `Bearer ${token}` },
+					});
+					dispatch(initMessages({ thread: id, messages: response.data['hydra:member'] }));
+					setLoading(false);
+				} catch (error) {
+					console.error(error);
+				}
+			})();
+		}
+		else {
+			setLoading(false);
+		}
+		console.log("messagesStore", messagesStore);
+		setMessages(messagesStore);
+	}, [id, messagesStore.length, dispatch]);
 
 	if (loading) {
 		return <Loader />;
@@ -73,7 +87,7 @@ function Tchat({ thread }) {
 				align='center'>
 				Messages
 			</Typography>
-			{messages.length === 0 && !loading ? (
+			{messages.length === 0 ? (
 				<Typography
 					variant='subtitle1'
 					align='center'>
@@ -84,6 +98,7 @@ function Tchat({ thread }) {
 					{messages.map((message) => (
 						<ListItem key={message.id}>
 							<Grid
+								key={message.id}
 								container
 								direction='column'>
 								<Grid item>
@@ -132,11 +147,11 @@ function Tchat({ thread }) {
 								type='submit'
 								variant='contained'
 								sx={{
-								
+
 									backgroundColor: '#048b9a',
 									':hover': { background: '#048b9a' },
 								}}
-								>
+							>
 								Envoyer
 							</Button>
 						</Grid>
