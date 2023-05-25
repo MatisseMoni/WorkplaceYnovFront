@@ -18,7 +18,6 @@ function Thread() {
 					headers: { Authorization: `Bearer ${token}` },
 				});
 				setThread(response.data);
-				console.log(response.data);
 			} catch (error) {
 				console.error(error);
 			}

@@ -45,7 +45,6 @@ const Layout = () => {
         });
 
         socket.on("delete group", (data) => {
-            console.log('router', data);
             dispatch(deleteGroupe(data));
         });
 

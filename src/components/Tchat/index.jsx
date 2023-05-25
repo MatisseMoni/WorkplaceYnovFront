@@ -72,7 +72,6 @@ function Tchat({ thread }) {
 		else {
 			setLoading(false);
 		}
-		console.log("messagesStore", messagesStore);
 		setMessages(messagesStore);
 	}, [id, messagesStore.length, dispatch]);
 
