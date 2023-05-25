@@ -21,13 +21,12 @@ import { newMessage } from './store/reducers/message';
 import { newThread } from './store/reducers/thread';
 import { setUsersLogged } from './store/reducers/auth';
 import { newGroupe, deleteGroupe } from './store/reducers/groupe';
-import socketIOClient from "socket.io-client";
+import socket from "./socket";
 
-const ENDPOINT = "http://127.0.0.1:4001";
-const socket = socketIOClient(ENDPOINT);
 const Layout = () => {
     const dispatch = useDispatch();
     const currentUser = useSelector((state) => state.auth.user);
+
     useEffect(() => {
         socket.on("new group", (data) => {
             dispatch(newGroupe({ groupe: data, user: currentUser }));

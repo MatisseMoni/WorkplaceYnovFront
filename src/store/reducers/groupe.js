@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import socketIOClient from "socket.io-client";
+import socket from "../../socket";
 
 const groupeSlice = createSlice({
     name: "groupe",
@@ -14,8 +14,6 @@ const groupeSlice = createSlice({
             state.groupes = groupes;
         },
         sendGroupe: (state, action) => {
-            const ENDPOINT = "http://localhost:4001";
-            const socket = socketIOClient(ENDPOINT);
             socket.emit("send group", action.payload);
         },
         newGroupe: (state, action) => {
@@ -25,8 +23,6 @@ const groupeSlice = createSlice({
             state.groupes.push(groupe);
         },
         removeGroupe: (state, action) => {
-            const ENDPOINT = "http://localhost:4001";
-            const socket = socketIOClient(ENDPOINT);
             socket.emit("remove group", action.payload);
         },
         deleteGroupe: (state, action) => {

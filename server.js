@@ -18,6 +18,8 @@ const io = socketIO(server, {
 
 let interval;
 
+let socketToUserIdMap = {};
+let userToSocketsMap = {};
 let users = [];
 
 io.on("connection", (socket) => {
@@ -31,14 +33,23 @@ io.on("connection", (socket) => {
         if (!users.find(u => u.id === user.id)) {
             users.push(user);
         }
-        userInfos = users.map(user => ({nickname: user.nickname, id: user.id}));
+        // Ajouter l'utilisateur à la carte des sockets.
+        socketToUserIdMap[socket.id] = user.id;
+
+        // Ajouter la socket à la carte des utilisateurs.
+        if (!userToSocketsMap[user.id]) {
+            userToSocketsMap[user.id] = [];
+        }
+        userToSocketsMap[user.id].push(socket.id);
+
+        userInfos = users.map(user => ({ nickname: user.nickname, id: user.id }));
         io.emit("new login", userInfos);
         clearInterval(interval);
     });
 
-    socket.on("user logout", ({userId}) => {
+    socket.on("user logout", ({ userId }) => {
         users = users.filter(user => user.id !== userId);
-        userInfos = users.map(user => ({nickname: user.nickname, id: user.id}));
+        userInfos = users.map(user => ({ nickname: user.nickname, id: user.id }));
         io.emit("new login", userInfos);
         clearInterval(interval);
     });
@@ -64,7 +75,28 @@ io.on("connection", (socket) => {
         clearInterval(interval);
     });
 
-    
+    socket.on('disconnect', () => {
+        console.log('User disconnected');
+        // Trouver l'utilisateur qui s'est déconnecté.
+        const userId = socketToUserIdMap[socket.id];
+        if (userId) {
+            // Supprimer la socket de la liste des sockets de l'utilisateur.
+            userToSocketsMap[userId] = userToSocketsMap[userId].filter(id => id !== socket.id);
+
+            // Si l'utilisateur n'a plus de sockets ouvertes, supprimez-le de la liste des utilisateurs.
+            if (userToSocketsMap[userId].length === 0) {
+                users = users.filter(u => u.id !== userId);
+                delete userToSocketsMap[userId];
+
+                userInfos = users.map(user => ({ nickname: user.nickname, id: user.id }));
+                io.emit("new login", userInfos);
+            }
+
+            // Supprimer l'utilisateur de la carte des sockets.
+            delete socketToUserIdMap[socket.id];
+        }
+        clearInterval(interval);
+    });
 
 });
 

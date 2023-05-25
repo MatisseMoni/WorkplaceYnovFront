@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import socketIOClient from "socket.io-client";
+import socket from "../../socket";
 
 const threadSlice = createSlice({
     name: "thread",
@@ -22,8 +22,6 @@ const threadSlice = createSlice({
             }, {});
         },
         sendThread: (state, action) => {
-            const ENDPOINT = "http://localhost:4001";
-            const socket = socketIOClient(ENDPOINT);
             socket.emit("send thread", action.payload);
         },
         newThread: (state, action) => {
