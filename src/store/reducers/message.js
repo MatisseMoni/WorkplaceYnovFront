@@ -15,10 +15,6 @@ const messageSlice = createSlice({
         sendMessage: (state, action) => {
             const ENDPOINT = "http://localhost:4001";
             const socket = socketIOClient(ENDPOINT);
-            if (!state.threads[action.payload.thread]) {
-                state.threads[action.payload.thread] = [];
-            }
-            state.threads[action.payload.thread].push(action.payload.message);
             socket.emit("send message", action.payload);
         },
         newMessage: (state, action) => {
