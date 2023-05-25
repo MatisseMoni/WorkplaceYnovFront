@@ -25,7 +25,6 @@ io.on("connection", (socket) => {
     if (interval) {
         clearInterval(interval);
     }
-    interval = setInterval(() => getApiAndEmit(socket), 1000);
 
     socket.on('user login', (props) => {
         const { user } = props;
@@ -33,8 +32,6 @@ io.on("connection", (socket) => {
             users.push(user);
         }
         userInfos = users.map(user => ({nickname: user.nickname, id: user.id}));
-        console.log(userInfos);
-
         io.emit("new login", userInfos);
         clearInterval(interval);
     });
@@ -42,23 +39,33 @@ io.on("connection", (socket) => {
     socket.on("user logout", ({userId}) => {
         users = users.filter(user => user.id !== userId);
         userInfos = users.map(user => ({nickname: user.nickname, id: user.id}));
-        console.log(userInfos);
-
         io.emit("new login", userInfos);
         clearInterval(interval);
     });
 
-    socket.on("send message", ({message, thread}) => {
-        console.log(message);
-        io.emit("new message", {message, thread});
+    socket.on("send message", (data) => {
+        io.emit("new message", data);
         clearInterval(interval);
     })
-});
 
-const getApiAndEmit = socket => {
-    const response = new Date();
-    // Emitting a new message. Will be consumed by the client
-    socket.emit("FromAPI", response);
-};
+    socket.on("send thread", (data) => {
+        io.emit("new thread", data);
+        clearInterval(interval);
+    })
+
+    socket.on("send group", (group) => {
+        io.emit("new group", group);
+        clearInterval(interval);
+    });
+
+    socket.on("remove group", (idGroupe) => {
+        console.log("remove group", idGroupe);
+        io.emit("delete group", idGroupe);
+        clearInterval(interval);
+    });
+
+    
+
+});
 
 server.listen(port, () => console.log(`Listening on port ${port}`));

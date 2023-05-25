@@ -6,10 +6,6 @@ const messageSlice = createSlice({
     initialState: { threads: {} },
     reducers: {
         initMessages: (state, action) => {
-            if (state.threads[action.payload.thread]) {
-                state.threads[action.payload.thread] = action.payload.messages;
-            }
-
             state.threads[action.payload.thread] = action.payload.messages;
         },
         sendMessage: (state, action) => {

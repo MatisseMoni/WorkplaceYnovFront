@@ -21,9 +21,6 @@ function Home() {
         Liste des groupes
       </Typography>
       <GroupesList />
-      <p>
-        It's <time dateTime={response}>{response}</time>
-      </p>
     </Container>
   );
 }
