@@ -4,6 +4,8 @@ import Card from '@mui/material/Card';
 import Container from '@mui/material/Container';
 import { Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
+import Brightness1TwoToneIcon from '@mui/icons-material/Brightness1TwoTone';
+import Brightness1Icon from '@mui/icons-material/Brightness1';
 
 function MembersList({ groupId, owner }) {
 	const [members, setMembers] = useState([]);
@@ -35,7 +37,7 @@ function MembersList({ groupId, owner }) {
 					<ul>
 						{members.map((member) => (
 							<li key={member.id}>
-								<Typography variant='body1'>{member.nickname} {member.isOwner ? <span>(admin)</span> : null} {member.isLogged ? <span>(connected)</span> : null}</Typography>
+								<Typography variant='body1'>{member.nickname} {member.isOwner ? <span>(admin)</span> : null} {member.isLogged ? <Brightness1Icon fontSize="small" color="success"/> :  <Brightness1TwoToneIcon fontSize="small" color="disabled" />}</Typography>
 							</li>
 						))}
 					</ul>
