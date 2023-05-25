@@ -35,7 +35,6 @@ function Groupe() {
         const response = await axios.delete(url, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        console.log("delete", idGroupe);
         dispatch(removeGroupe(idGroupe));
         navigate("/compte");
       } catch (error) {

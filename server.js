@@ -70,7 +70,6 @@ io.on("connection", (socket) => {
     });
 
     socket.on("remove group", (idGroupe) => {
-        console.log("remove group", idGroupe);
         io.emit("delete group", idGroupe);
         clearInterval(interval);
     });

@@ -33,7 +33,7 @@ async function retriveLoggedUsers() {
     }
   } catch (error) {
     localStorage.removeItem('token');
-    console.log(error);
+    console.error(error);
   }
 };
 

@@ -9,8 +9,6 @@ function Pagination ({totalPostes, postsPerPage = 20 }) {
     const queryParams = new URLSearchParams(window.location.search)
     const actualPage = parseInt(queryParams.get("page")) || 1;
 
-    console.log('nbPages', nbPages, 'actualPage', actualPage, 'totalPostes', totalPostes, 'postsPerPage', postsPerPage);
-
     if (nbPages === 1) return null;
     
     function handlePreviousPage() {
