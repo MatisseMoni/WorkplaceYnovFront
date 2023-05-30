@@ -9,7 +9,7 @@ import axios from 'axios';
 
 function GroupCard({ groupe, isGrid = false }) {
 	const { name, description, isMember = false, isOwner = false } = groupe;
-	const id = groupe['@id'].split('/')[3];
+	const id = groupe['@id']?.split('/')[3];
 	const displayLink = isMember || isOwner;
 	const url = `${process.env.REACT_APP_YOUR_API_URL}/api/group_requests`;
 
