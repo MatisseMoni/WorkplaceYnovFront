@@ -25,7 +25,7 @@ function GroupesList({ access = "all" }) {
         try {
           const response = await axios.get(`${process.env.REACT_APP_YOUR_API_URL}${nextUrl}`);
           groupesTmp = [...groupesTmp, ...response.data["hydra:member"]];
-          nextUrl = response.data["hydra:view"]["hydra:next"];
+          nextUrl = response.data["hydra:view"]?.["hydra:next"];
         } catch (error) {
           setError(error);
           break;
