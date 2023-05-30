@@ -33,8 +33,8 @@ function Thread() {
 			<Card>
 				<CardContent>
 					<Typography
-						variant='h5'
-						component='h2'
+						variant='h6'
+						component='h1'
 						align='center'>
 						{thread.title}
 					</Typography>

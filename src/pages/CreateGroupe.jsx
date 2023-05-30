@@ -31,6 +31,8 @@ function CreateGroupe() {
 					}
 				);
 
+				console.log('reponseCreate', reponseCreate.data);
+
 				const reponseRequest = await axios.post(
 					urlGroupRequest,
 					{
@@ -41,6 +43,8 @@ function CreateGroupe() {
 					}
 				);
 
+				console.log('reponseRequest', reponseRequest.data);
+
 				const reponseAccept = await axios.post(
 					`${urlGroupRequest}/${reponseRequest.data.id}/accept`,
 					{},
@@ -50,6 +54,8 @@ function CreateGroupe() {
 						},
 					}
 				);
+
+				console.log('reponseAccept', reponseAccept.data);
 
 				let groupe = reponseCreate.data;
 				dispatch(sendGroupe(groupe));

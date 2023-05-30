@@ -37,7 +37,7 @@ function GroupCard({ groupe, isGrid = false }) {
 				<CardContent>
 					<Typography
 						variant='h6'
-						component='div'
+						component='h1'
 						sx={{ textAlign: 'center', fontWeight: 'bold', mb: '10px' }}>
 						{name}
 					</Typography>
