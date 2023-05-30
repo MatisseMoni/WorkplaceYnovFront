@@ -33,10 +33,8 @@ io.on("connection", (socket) => {
         if (!users.find(u => u.id === user.id)) {
             users.push(user);
         }
-        // Ajouter l'utilisateur à la carte des sockets.
         socketToUserIdMap[socket.id] = user.id;
 
-        // Ajouter la socket à la carte des utilisateurs.
         if (!userToSocketsMap[user.id]) {
             userToSocketsMap[user.id] = [];
         }
@@ -76,13 +74,10 @@ io.on("connection", (socket) => {
 
     socket.on('disconnect', () => {
         console.log('User disconnected');
-        // Trouver l'utilisateur qui s'est déconnecté.
         const userId = socketToUserIdMap[socket.id];
         if (userId) {
-            // Supprimer la socket de la liste des sockets de l'utilisateur.
             userToSocketsMap[userId] = userToSocketsMap[userId].filter(id => id !== socket.id);
 
-            // Si l'utilisateur n'a plus de sockets ouvertes, supprimez-le de la liste des utilisateurs.
             if (userToSocketsMap[userId].length === 0) {
                 users = users.filter(u => u.id !== userId);
                 delete userToSocketsMap[userId];
@@ -91,7 +86,6 @@ io.on("connection", (socket) => {
                 io.emit("new login", userInfos);
             }
 
-            // Supprimer l'utilisateur de la carte des sockets.
             delete socketToUserIdMap[socket.id];
         }
         clearInterval(interval);
