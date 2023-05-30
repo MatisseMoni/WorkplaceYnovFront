@@ -15,8 +15,8 @@ test('Effectue une tentative de connexion avec des identifiants valides', async 
     await page.goto('http://localhost:3000/connexion'); // Remplacez l'URL par celle de la page de connexion à tester
   
     // Remplir les champs de connexion avec des identifiants valides
-    await page.fill('input#email', 'john.doe@example.com');
-    await page.fill('input#password', 'password123');
+    await page.fill('input#email', 'toto42@ynov.com');
+    await page.fill('input#password', '1234');
   
     // Attendre que le bouton "Se Connecter" soit visible
     await page.waitForSelector('button:has-text("Se Connecter")', { state: 'visible' });
@@ -49,6 +49,6 @@ test('Effectue une tentative de connexion avec des identifiants invalides', asyn
   await page.click('button:has-text("Se Connecter")');
 
   // Vérifier le résultat de la tentative de connexion
-  await page.waitForSelector('Typography[color="error"]:has-text("Email ou mot de passe incorrect")');
+  await page.waitForSelector('p:has-text("Email ou mot de passe incorrect")');
   // ... Ajoutez d'autres assertions pour vérifier le résultat de la connexion avec des identifiants invalides
 });
