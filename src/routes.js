@@ -7,8 +7,6 @@ import { login } from './store/reducers/auth';
 import GuestRoute from './routes/GuestRoute';
 import PrivateRoute from './routes/PrivateRoute';
 import Home from './pages/Home';
-import UserList from './pages/UserList';
-import User from './pages/User';
 import Inscription from './pages/Inscription';
 import Connexion from './pages/Connexion';
 import Compte from './pages/Compte';
@@ -73,14 +71,6 @@ const routes = () =>
                 {
                     path: "/",
                     element: (PrivateRoute(<Home />)),
-                },
-                {
-                    path: "/userList",
-                    element: (<UserList />),
-                },
-                {
-                    path: "/userList/:idUser",
-                    element: (PrivateRoute(<User />)),
                 },
                 {
                     path: "/inscription",
