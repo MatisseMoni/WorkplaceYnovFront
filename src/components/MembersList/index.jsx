@@ -32,7 +32,7 @@ function MembersList({ groupId, owner }) {
 	return (
 		<Card sx={{ width: '300px' }}>
 			<Container>
-				<Typography variant='h6' sx={{ mt: 2 }}>Membres</Typography>
+				<Typography variant='h6' component='h2' sx={{ mt: 2 }}>Membres</Typography>
 				{members.length > 0 ? (
 					<ul>
 						{members.map((member) => (

@@ -58,7 +58,7 @@ function ThreadsList({ groupeId }) {
 				<Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
 					<Typography
 						variant='h6'
-						component='h1'
+						component='h2'
 						textAlign='center'
 						sx={{ mt: 2 }}>
 						Threads
