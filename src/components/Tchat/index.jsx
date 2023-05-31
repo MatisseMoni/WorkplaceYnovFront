@@ -20,6 +20,7 @@ function Tchat({ thread }) {
 	const url = `${process.env.REACT_APP_YOUR_API_URL}/api/threads/${id}/messages`;
 	const urlSend = `${process.env.REACT_APP_YOUR_API_URL}/api/messages`;
 	const currentUser = useSelector((state) => state.auth.user);
+	const ownerId = currentUser && currentUser.id;
 	const messagesStore = useSelector((state) => state.message.threads[id] || []);
 
 	const dispatch = useDispatch();

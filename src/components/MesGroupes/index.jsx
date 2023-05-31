@@ -2,7 +2,6 @@ import GroupesList from '../GroupesList';
 import { Button, Container } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { Card } from '@mui/material';
-import MenuItem from '@mui/material/MenuItem';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 
 function Groupes() {
