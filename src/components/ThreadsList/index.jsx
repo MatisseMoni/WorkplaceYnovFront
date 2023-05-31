@@ -53,7 +53,7 @@ function ThreadsList({ groupeId }) {
 		threads[groupeId] && threads[groupeId].length > 0 ? threads[groupeId] : [];
 
 	return (
-		<Card sx={{ width: '300px' }}>
+		<Card data-testid="loader" sx={{ width: '300px' }}>
 			<Container>
 				<Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
 					<Typography
