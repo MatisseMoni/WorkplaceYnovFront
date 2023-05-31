@@ -57,7 +57,7 @@ function ResponsiveAppBar() {
 
 	const links = [
 		{ name: 'Créer un groupe', path: '/createGroupe' },
-		{ name: 'Mes groupes', path: '/compte' }
+		{ name: 'Mes groupes', path: '/compte' },
 	];
 
 	const linksisnotlogged = [
@@ -74,7 +74,7 @@ function ResponsiveAppBar() {
 		<AppBar
 			position='static'
 			sx={{ marginBottom: 5, background: '#171E1E' }}>
-			<Container maxWidth='xl' >
+			<Container maxWidth='xl'>
 				<Toolbar disableGutters>
 					<Typography
 						variant='h5'
@@ -92,7 +92,7 @@ function ResponsiveAppBar() {
 						Ynov Workplace
 					</Typography>
 
-					<Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }}}>
+					<Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
 						<IconButton
 							size='large'
 							aria-label='account of current user'
@@ -100,10 +100,11 @@ function ResponsiveAppBar() {
 							aria-haspopup='true'
 							onClick={handleOpenNavMenu}
 							color='white'>
-							<MenuIcon  background='white'/>
+							<MenuIcon background='white' />
 						</IconButton>
 						<Menu
 							id='menu-appbar'
+							key='nav-menu'
 							anchorEl={anchorElNav}
 							anchorOrigin={{
 								vertical: 'bottom',
@@ -120,21 +121,24 @@ function ResponsiveAppBar() {
 								display: { xs: 'block', md: 'none' },
 							}}>
 							{logged
-								? links.map((link, index) => (
-										<Link to={link.path} style={{ textDecoration: 'none' }}>
+								? links.map((link) => (
+										<Link
+											to={link.path}
+											style={{ textDecoration: 'none' }}
+											key={link.name}>
 											<Button
-												key={index}
 												onClick={handleCloseNavMenu}
-												sx={{ my: 2, color: 'black', display: 'block' }}
-                                                >
+												sx={{ my: 2, color: 'black', display: 'block' }}>
 												{link.name}
 											</Button>
 										</Link>
 								  ))
-								: linksisnotlogged.map((linkisnotlogged, index) => (
-										<Link to={linkisnotlogged.path} style={{ textDecoration: 'none' }}>
+								: linksisnotlogged.map((linkisnotlogged) => (
+										<Link
+											to={linkisnotlogged.path}
+											style={{ textDecoration: 'none' }}
+											key={linkisnotlogged.name}>
 											<Button
-												key={index}
 												onClick={handleCloseNavMenu}
 												sx={{ my: 2, color: 'white', display: 'block' }}>
 												{linkisnotlogged.name}
@@ -143,7 +147,9 @@ function ResponsiveAppBar() {
 								  ))}
 						</Menu>
 					</Box>
-					<Link to='/' style={{ textDecoration: 'none' }}>
+					<Link
+						to='/'
+						style={{ textDecoration: 'none' }}>
 						<Typography
 							variant='h5'
 							noWrap
@@ -161,26 +167,33 @@ function ResponsiveAppBar() {
 							Ynov Workplace
 						</Typography>
 					</Link>
-					<Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent:'end',}}>
+					<Box
+						sx={{
+							flexGrow: 1,
+							display: { xs: 'none', md: 'flex' },
+							justifyContent: 'end',
+						}}>
 						{logged
-							? links.map((link, index) => (
-									<Link to={link.path} style={{ textDecoration: 'none' }}>
+							? links.map((link) => (
+									<Link
+										to={link.path}
+										style={{ textDecoration: 'none' }}
+										key={link.name}>
 										<Button
-											key={index}
 											onClick={handleCloseNavMenu}
-											sx={{ my: 2, mr:2,  color: 'white', borderColor: 'white', display: 'block', ":hover": { borderColor: 'white' }  }}
-                                            underline="none">
+											sx={{ my: 2, color: 'black', display: 'block' }}>
 											{link.name}
 										</Button>
 									</Link>
 							  ))
-							: linksisnotlogged.map((linkisnotlogged, index) => (
-									<Link to={linkisnotlogged.path} style={{ textDecoration: 'none' }}>
+							: linksisnotlogged.map((linkisnotlogged) => (
+									<Link
+										to={linkisnotlogged.path}
+										style={{ textDecoration: 'none' }}
+										key={linkisnotlogged.name}>
 										<Button
-											variant='outlined'
-											key={index}
 											onClick={handleCloseNavMenu}
-											sx={{ my: 2, mr:2,  color: 'white', borderColor: 'white', display: 'block', ":hover": { borderColor: 'white' }  }}>
+											sx={{ my: 2, color: 'white', display: 'block' }}>
 											{linkisnotlogged.name}
 										</Button>
 									</Link>
@@ -193,7 +206,7 @@ function ResponsiveAppBar() {
 									onClick={handleOpenUserMenu}
 									sx={{ p: 0 }}>
 									<Avatar
-										sx={{ backgroundColor: "#048b9a", }}
+										sx={{ backgroundColor: '#048b9a' }}
 										alt={user.nickname}
 										src='/static/images/avatar/2.jpg'
 									/>
@@ -214,15 +227,13 @@ function ResponsiveAppBar() {
 								}}
 								open={Boolean(anchorElUser)}
 								onClose={handleCloseUserMenu}>
-								{settings.map((setting, index) => (
+								{settings.map((setting) => (
 									<MenuItem
-										key={index}
+										key={setting.name}
 										onClick={handleCloseUserMenu}>
 										{setting.path ? (
 											<Link to={setting.path}>
-												<Button sx={{ color: 'black' }}>
-													{setting.name}
-												</Button>
+												<Button sx={{ color: 'black' }}>{setting.name}</Button>
 											</Link>
 										) : (
 											<Button
